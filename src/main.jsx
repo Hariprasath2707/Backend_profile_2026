@@ -1,13 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { BrowserRouter } from 'react-router-dom'
+import { HashRouter } from 'react-router-dom'  // ← changed BrowserRouter to HashRouter
 import App from './App.jsx'
 import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <BrowserRouter basename="/Backend_profile_2026/">
+    <HashRouter>  {/* ← removed basename, HashRouter doesn't need it */}
       <App />
-    </BrowserRouter>
+    </HashRouter>
   </React.StrictMode>,
 )
