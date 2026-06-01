@@ -6,7 +6,7 @@ import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename="/Backend_profile_2026/">
       <App />
     </BrowserRouter>
   </React.StrictMode>,
