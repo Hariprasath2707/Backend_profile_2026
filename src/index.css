@@ -1,0 +1,101 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   THEME TOKENS
+   Colors are defined as RGB channels so Tailwind opacity
+   utilities (e.g. bg-surface/40) keep working.
+   Dark is the default; the .light class overrides them.
+   ============================================================ */
+:root {
+  --color-ink: 13 12 10;
+  --color-surface: 22 20 15;
+  --color-line: 42 38 29;
+  --color-paper: 243 237 224;
+  --color-muted: 154 147 132;
+  --color-accent: 255 92 53;
+  --color-accent2: 216 192 138;
+}
+.light {
+  --color-ink: 247 244 237;
+  --color-surface: 237 231 219;
+  --color-line: 214 206 190;
+  --color-paper: 28 24 18;
+  --color-muted: 108 100 86;
+  --color-accent: 222 72 38;
+  --color-accent2: 150 120 60;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-ink text-paper font-sans antialiased;
+    background-image:
+      radial-gradient(120% 80% at 50% -10%, rgb(var(--color-accent) / 0.08), transparent 60%),
+      radial-gradient(100% 60% at 100% 100%, rgb(var(--color-accent2) / 0.05), transparent 55%);
+    background-attachment: fixed;
+    transition: background-color 0.4s ease, color 0.4s ease;
+  }
+  ::selection {
+    @apply bg-accent text-ink;
+  }
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-track { background: rgb(var(--color-ink)); }
+  ::-webkit-scrollbar-thumb { background: rgb(var(--color-line)); border-radius: 8px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgb(var(--color-muted) / 0.5); }
+}
+
+@layer components {
+  /* Reveal-on-scroll: hidden until the .in-view class is added by the observer */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  .reveal.in-view {
+    @apply animate-fade-up;
+  }
+  /* Plays immediately on page load (used in the hero) */
+  .reveal-load {
+    opacity: 0;
+    animation: fade-up 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+  /* Eyebrow / section labels */
+  .eyebrow {
+    @apply font-mono text-xs uppercase tracking-[0.25em] text-accent;
+  }
+}
+
+/* Fine grain texture overlay */
+.grain::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+}
+
+/* ============================================================
+   MINIMAL BINARY BACKDROP (hero)
+   ============================================================ */
+@keyframes binary-fall {
+  from { transform: translateY(-50%); }
+  to   { transform: translateY(0); }
+}
+.binary-col {
+  animation: binary-fall linear infinite;
+}
