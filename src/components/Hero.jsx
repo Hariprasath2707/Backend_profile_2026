@@ -57,8 +57,8 @@ export default function Hero() {
             </a>
             {profile.resumeUrl && (
               <a
-                href="/Hariprasath_Resume.pdf"
-                download="Hariprasath_Resume.pdf"
+                href={profile.resumeUrl}
+                download
                 className="font-mono text-xs uppercase tracking-widest border border-line px-6 py-3 rounded-full hover:border-paper transition-colors"
               >
                 Résumé

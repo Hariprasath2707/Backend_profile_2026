@@ -13,7 +13,7 @@ function NotFound() {
           The project you're looking for doesn't exist or may have moved.
         </p>
         <Link
-          to="/#work"
+          to={{ pathname: '/', hash: '#work' }}
           className="inline-block mt-8 font-mono text-xs uppercase tracking-widest border border-line px-6 py-3 rounded-full hover:border-accent hover:text-accent transition-colors"
         >
           ← Back to work
@@ -50,7 +50,7 @@ export default function ProjectDetail() {
       <div className="mx-auto max-w-4xl">
         {/* Back link */}
         <Link
-          to="/#work"
+          to={{ pathname: '/', hash: '#work' }}
           className="reveal inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-muted hover:text-accent transition-colors"
         >
           ← Back to work
@@ -195,13 +195,13 @@ export default function ProjectDetail() {
         {/* Footer nav */}
         <div className="reveal mt-20 pt-10 border-t border-line flex flex-wrap items-center justify-between gap-4">
           <Link
-            to="/#work"
+            to={{ pathname: '/', hash: '#work' }}
             className="font-mono text-xs uppercase tracking-widest text-muted hover:text-accent transition-colors"
           >
             ← All projects
           </Link>
           <Link
-            to="/#contact"
+            to={{ pathname: '/', hash: '#contact' }}
             className="font-mono text-xs uppercase tracking-widest bg-accent text-ink px-5 py-2.5 rounded-full hover:bg-paper transition-colors"
           >
             Get in touch →

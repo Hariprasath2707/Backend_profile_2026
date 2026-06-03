@@ -3,6 +3,8 @@
 //  Edit this file to update any text on the site.
 // ============================================================
 
+const BASE = import.meta.env.BASE_URL
+
 export const profile = {
   name: 'Hariprasath V',
   role: 'Backend Developer',
@@ -12,9 +14,9 @@ export const profile = {
   location: 'Chennai, India',
   available: false, // set to true to show an "Available for work" badge in the hero
   email: 'hariprasath642@gmail.com',
-  resumeUrl: '/resume.pdf', // drop your resume.pdf into the /public folder
-  // Replace public/profile.jpg with your own headshot (portrait, ~800x1000 works well).
-  photo: '/profile.jpg',
+  // GitHub Pages compatible paths
+  resumeUrl: `${BASE}resume.pdf`,
+  photo: `${BASE}profile.jpg`,
 }
 
 // ── Contact form ────────────────────────────────────────────

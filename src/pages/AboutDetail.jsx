@@ -6,7 +6,7 @@ export default function AboutDetail() {
     <article className="px-6 pt-32 pb-24 sm:pt-40 sm:pb-32">
       <div className="mx-auto max-w-4xl">
         <Link
-          to="/#about"
+          to={{ pathname: '/', hash: '#about' }}
           className="reveal inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-muted hover:text-accent transition-colors"
         >
           ← Back home
@@ -83,13 +83,13 @@ export default function AboutDetail() {
 
         <div className="reveal mt-20 pt-10 border-t border-line flex flex-wrap items-center justify-between gap-4">
           <Link
-            to="/#about"
+            to={{ pathname: '/', hash: '#about' }}
             className="font-mono text-xs uppercase tracking-widest text-muted hover:text-accent transition-colors"
           >
             ← Back home
           </Link>
           <Link
-            to="/#contact"
+            to={{ pathname: '/', hash: '#contact' }}
             className="font-mono text-xs uppercase tracking-widest bg-accent text-ink px-5 py-2.5 rounded-full hover:bg-paper transition-colors"
           >
             Get in touch →

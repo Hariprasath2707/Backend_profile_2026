@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react'
 import { profile } from '../data/content'
 
+const BASE = import.meta.env.BASE_URL
+
 const links = [
-  { label: 'Work', href: '/#work' },
-  { label: 'About', href: '/#about' },
-  { label: 'Experience', href: '/#experience' },
-  { label: 'Education', href: '/#education' },
-  { label: 'Contact', href: '/#contact' },
+  { label: 'Work', href: `${BASE}#work` },
+  { label: 'About', href: `${BASE}#about` },
+  { label: 'Experience', href: `${BASE}#experience` },
+  { label: 'Education', href: `${BASE}#education` },
+  { label: 'Contact', href: `${BASE}#contact` },
 ]
 
 function ThemeToggle({ theme, toggle }) {
@@ -49,7 +51,7 @@ export default function Nav({ theme, toggle }) {
       }`}
     >
       <nav className="mx-auto max-w-6xl px-6 h-20 flex items-center justify-between">
-        <a href="/#top" className="font-display text-xl tracking-tightest">
+        <a href={`${BASE}#top`} className="font-display text-xl tracking-tightest">
           {profile.name.split(' ')[0]}
           <span className="text-accent">.</span>
         </a>
@@ -70,7 +72,7 @@ export default function Nav({ theme, toggle }) {
         <div className="hidden md:flex items-center gap-4">
           <ThemeToggle theme={theme} toggle={toggle} />
           <a
-            href="/#contact"
+            href={BASE + '#contact'}
             className="font-mono text-sm uppercase tracking-widest border border-line px-4 py-2 rounded-full hover:border-accent hover:text-accent transition-colors"
           >
             Get in touch
