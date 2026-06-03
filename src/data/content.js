@@ -16,7 +16,7 @@ export const profile = {
   email: 'hariprasath642@gmail.com',
   // GitHub Pages compatible paths
   resumeUrl: `${BASE}resume.pdf`,
-  photo: `${BASE}profile.jpg`,
+  photo: `${BASE}profile.jpeg`,
 }
 
 // ── Contact form ────────────────────────────────────────────
