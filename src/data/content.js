@@ -15,7 +15,7 @@ export const profile = {
   available: false, // set to true to show an "Available for work" badge in the hero
   email: 'hariprasath642@gmail.com',
   // GitHub Pages compatible paths
-  resumeUrl: `${BASE}resume.pdf`,
+  resumeUrl: `${BASE}Hariprasath_Resume.pdf`,
   photo: `${BASE}profile.jpeg`,
 }
 
