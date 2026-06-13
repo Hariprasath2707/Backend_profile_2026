@@ -10,13 +10,13 @@ export const profile = {
   role: 'Backend Developer',
   // A short, punchy tagline shown in the hero.
   tagline:
-    'I build scalable, secure, and maintainable backend systems with Python, Django, and well-designed APIs.',
+    'Backend Developer with 1+ year of experience building scalable, secure server-side applications with Python, Django, and well-designed REST APIs.',
   location: 'Chennai, India',
   available: false, // set to true to show an "Available for work" badge in the hero
   email: 'hariprasath642@gmail.com',
   // GitHub Pages compatible paths
   resumeUrl: `${BASE}Hariprasath_Resume.pdf`,
-  photo: `${BASE}profile.jpeg`,
+  photo: `${BASE}profile.webp`,
 }
 
 // ── Contact form ────────────────────────────────────────────
@@ -50,71 +50,73 @@ export const socials = [
 
 export const about = {
   paragraphs: [
-    "I'm a Backend Developer based in Chennai, specializing in building scalable, secure, and high-performance web applications using Python, Django, and Django REST Framework.",
+    "I'm a Backend Developer based in Chennai with 1+ year of experience building scalable, secure, and high-performance web applications using Python, Django, and Django REST Framework.",
 
-    "My journey at Emayam Technology began as a Backend Developer Intern in March 2025, and through consistent contributions and ownership of critical projects, I transitioned into a full-time Backend Developer role. Since then, I have worked across ERP, HRMS, SaaS, Project Management, and License Management platforms, developing backend systems that power real-world business operations.",
+    "At Emayam Technology, I work on Focult — an enterprise SaaS platform for employee monitoring, productivity analytics, and compliance reporting. Beyond the server side, I've built dual-component Windows Agent applications in Python (a Login Agent and a Background Service Agent) handling secure authentication, device registration, and silent real-time activity sync with backend APIs.",
 
-    "I enjoy solving complex engineering challenges and designing reusable solutions. One of my most impactful projects was building a dynamic Auto Export and Reporting System that supports automated report generation, workflow automation, scheduled exports, file management, and email delivery across multiple modules. This experience strengthened my expertise in backend architecture, API design, background task processing, and scalable system development.",
+    "I enjoy solving complex engineering challenges and designing reusable solutions. I've implemented JWT authentication and Role-Based Access Control across multi-tenant organizational hierarchies, optimized MySQL and PostgreSQL queries to cut average response times by ~35%, and built Celery-based asynchronous pipelines for scheduled jobs, reports, and notifications.",
 
-    "Beyond coding, I enjoy mentoring developers, leading technical discussions, and collaborating with teams to deliver reliable software solutions. My focus is always on building maintainable systems that improve performance, automate business processes, and create meaningful value for users.",
+    "Beyond coding, I lead a team of 4 developers and mentor 2 junior engineers — running sprint planning, code reviews, and technical discussions within an Agile workflow. My focus is always on building maintainable systems that improve performance, automate business processes, and create real value for users.",
 
-    "I'm currently expanding my expertise in API Architecture, AI Integration, and scalable backend engineering while continuously exploring better ways to build efficient and future-ready applications.",
+    "I'm currently expanding my expertise in API architecture, AI integration, and scalable backend engineering while continuously exploring better ways to build efficient, future-ready applications.",
   ],
 
   skills: [
-      {
+    {
       group: 'Languages & Frameworks',
       items: [
-      'Python',
-      'Django',
-      'Django REST Framework (DRF)',
-      'RESTful API Development',
-      'Object-Oriented Programming (OOP)',
-      'Backend System Design',
+        'Python',
+        'Django',
+        'Django REST Framework (DRF)',
+        'RESTful API Development',
+        'Serializer-Based Development',
+        'Object-Oriented Programming (OOP)',
+        'Backend System Design',
       ],
-      },
-      {
+    },
+    {
       group: 'Databases',
       items: [
-      'PostgreSQL',
-      'MySQL',
-      'Database Design',
-      'Query Optimization',
-      'Data Modeling',
-      'Performance Tuning',
+        'PostgreSQL',
+        'MySQL',
+        'Database Design',
+        'Query Optimization',
+        'Data Modeling',
+        'Performance Tuning',
       ],
-      },
-      {
+    },
+    {
       group: 'Backend Expertise',
       items: [
-      'JWT Authentication',
-      'Role-Based Access Control (RBAC)',
-      'Celery & Background Task Processing',
-      'Redis',
-      'API Integration',
-      'Workflow Automation',
-      'Audit Logging & Activity Tracking',
-      'File Upload & Cloud Storage Integration',
-      'Email Notification Systems',
-      'Scheduled Reporting & Data Export',
+        'JWT Authentication',
+        'Role-Based Access Control (RBAC)',
+        'Multi-Tenant Architecture',
+        'Celery & Background Task Processing',
+        'Redis',
+        'API Integration',
+        'Workflow Automation',
+        'Performance Optimization',
+        'Audit Logging & Activity Tracking',
+        'File Upload & Cloud Storage Integration',
+        'Email Notification Systems',
+        'Scheduled Reporting & Data Export',
       ],
-      },
-      {
+    },
+    {
       group: 'Tools & Technologies',
       items: [
-      'Git',
-      'GitHub',
-      'Postman',
-      'VS Code',
-      'Linux',
-      'Google Drive API',
-      'SMTP Services',
-      'Agile Development',
-      'Debugging & Troubleshooting',
+        'Git',
+        'GitHub',
+        'Postman',
+        'VS Code',
+        'Linux',
+        'Google Drive API',
+        'SMTP Services',
+        'Agile Development',
+        'Debugging & Troubleshooting',
       ],
-      },
-      ]
-
+    },
+  ],
 }
 
 export const projects = [
@@ -123,38 +125,78 @@ export const projects = [
     title: 'Focult',
     year: '2025',
     blurb:
-      'Real-time employee monitoring platform serving 500+ endpoints — tracking web history, app usage, keystrokes, screenshots, screen recording, and file transfers. Celery-driven automated exports and scheduled reports cut manual effort by ~60%.',
+      'Enterprise SaaS platform for employee monitoring, productivity analytics, and compliance reporting across 500+ endpoints — including dual Python Windows Agents for secure auth and silent real-time activity sync. Celery-driven exports cut manual effort by ~60%.',
     tags: ['Django', 'DRF', 'PostgreSQL', 'Celery', 'JWT'],
     link: '',
     repo: '',
     featured: true,
 
     // --- Detail page content (shown at /projects/focult) ---
-    tagline: 'Real-time employee monitoring at scale.',
+    tagline: 'Real-time employee monitoring at enterprise scale.',
     role: 'Backend Developer',
     timeline: '2025',
     overview:
-      'Focult is an enterprise employee-monitoring platform built to give organizations real-time visibility into workforce activity across hundreds of endpoints, while keeping data secure and the system responsive under heavy ingestion load.',
+      'Focult is an enterprise SaaS employee-monitoring platform giving organizations real-time visibility into workforce activity, productivity analytics, and compliance reporting across hundreds of endpoints — while keeping data secure and the system responsive under heavy ingestion load.',
     challenge:
-      'The platform needed to continuously ingest high-frequency activity data — web history, app usage, keystrokes, screenshots, screen recordings, and file transfers — from 500+ endpoints without degrading performance, and turn that raw stream into reports teams could actually use.',
+      'The platform needed to continuously ingest high-frequency activity data — web history, app usage, keystrokes, screenshots, screen recordings, and file transfers — from 500+ endpoints without degrading performance, work cleanly across multi-tenant organizational hierarchies, and turn that raw stream into reports teams could actually use.',
     approach: [
       'Designed normalized, index-optimized PostgreSQL schemas tuned for large-scale, write-heavy data ingestion.',
       'Built RESTful APIs with Django REST Framework to receive and serve activity data with low latency.',
-      'Implemented Celery background workers for automated exports and scheduled reports, removing slow synchronous work from the request path.',
-      'Secured the system with JWT authentication and Role-Based Access Control separating admin and employee permissions.',
+      'Developed dual-component Windows Agent applications in Python — a Login Agent and a Background Service Agent — for secure authentication, device registration, and silent real-time activity monitoring and data sync.',
+      'Implemented Celery background workers for automated exports, scheduled reports, and notifications, removing slow synchronous work from the request path.',
+      'Secured the system with JWT authentication and Role-Based Access Control across multi-tenant organizational hierarchies.',
     ],
     features: [
       'Real-time activity capture across 6+ data types (web, apps, keystrokes, screenshots, recordings, file transfers).',
+      'Dual Python Windows Agents handling authentication, device registration, and background sync.',
       'Automated, scheduled report generation and data exports.',
-      'Role-based dashboards for administrators and employees.',
+      'Multi-tenant role-based dashboards for administrators and employees.',
       'Privacy-aware, low-latency data processing pipeline.',
     ],
     outcomes: [
       { metric: '500+', label: 'endpoints monitored' },
       { metric: '~60%', label: 'less manual reporting effort' },
-      { metric: '6+', label: 'activity data types' },
+      { metric: '~35%', label: 'faster query response times' },
     ],
-    stack: ['Python', 'Django', 'Django REST Framework', 'PostgreSQL', 'Celery', 'Redis', 'JWT'],
+    stack: ['Python', 'Django', 'Django REST Framework', 'PostgreSQL', 'MySQL', 'Celery', 'Redis', 'JWT'],
+  },
+  {
+    slug: 'neem',
+    title: 'Neem',
+    year: '2025',
+    blurb:
+      'Backend for an e-commerce platform covering product catalog, real-time inventory tracking, order processing, customer management, and payment workflows — with JWT auth, RBAC, and schema optimizations that cut response times by ~35%.',
+    tags: ['Django', 'DRF', 'PostgreSQL', 'Python'],
+    link: '',
+    repo: '',
+    featured: true,
+
+    // --- Detail page content (shown at /projects/neem) ---
+    tagline: 'A complete commerce backend, from catalog to checkout.',
+    role: 'Backend Developer',
+    timeline: '2025',
+    overview:
+      'Neem is an e-commerce platform whose backend handles the full commerce lifecycle — product catalog management, inventory tracking, order processing, customer management, and payment workflows — built to stay fast and consistent as catalog size and order volume grow.',
+    challenge:
+      'Commerce backends fail in predictable ways: stock counts drift out of sync, order states get inconsistent under concurrent updates, and response times degrade as the catalog grows. The system needed accurate real-time inventory, secure role-separated access, and performant APIs across every workflow.',
+    approach: [
+      'Developed RESTful APIs for product catalog management, inventory tracking, order processing, customer management, and payment workflows.',
+      'Built real-time inventory management modules to track stock availability and product updates accurately.',
+      'Implemented JWT-based authentication and role-based authorization (RBAC) for secure access management across user roles.',
+      'Optimized database schemas and API performance, reducing average response times by approximately 35%.',
+    ],
+    features: [
+      'Full product catalog and inventory management with real-time stock tracking.',
+      'Order processing and payment workflow APIs.',
+      'Customer management with role-separated access.',
+      'Optimized schemas and queries for fast responses at scale.',
+    ],
+    outcomes: [
+      { metric: '~35%', label: 'faster average response times' },
+      { metric: '5', label: 'core commerce modules' },
+      { metric: 'Real-time', label: 'inventory accuracy' },
+    ],
+    stack: ['Python', 'Django', 'Django REST Framework', 'PostgreSQL', 'JWT'],
   },
   {
     slug: 'nex-liv',
@@ -203,8 +245,15 @@ export const experience = [
     period: 'Mar 2025 — Present',
     location: 'Chennai, India',
     summary:
-      'Building and maintaining scalable backend systems and RESTful APIs for enterprise applications using Python, Django, and Django REST Framework.',
-      points: [ 'Started as a Backend Developer Intern in March 2025 and transitioned to a full-time Backend Developer role in July 2025 based on performance and contributions.', 'Developed and maintained RESTful APIs using Python, Django, and Django REST Framework (DRF), enabling secure and efficient communication between frontend and backend systems.', 'Designed and optimized MySQL and PostgreSQL databases, improving query performance and reducing average response times by approximately 35%.', 'Implemented JWT-based authentication, Role-Based Access Control (RBAC), and Celery-powered background task processing for enterprise applications.', 'Built scalable backend features, automated workflows, and data processing solutions to improve system reliability and operational efficiency.', 'Led a team of developers, managing sprint planning, task allocation, project execution, and timely feature delivery.', 'Collaborated with stakeholders, business teams, and developers to gather requirements and deliver high-quality software solutions.', 'Conducted code reviews and mentored junior developers on Python, Django, API development, debugging, and backend best practices.', ],
+      'Building scalable RESTful APIs and backend systems for Focult, an enterprise SaaS platform, using Python, Django, and Django REST Framework — and leading a team of 4 developers.',
+    points: [
+      'Designed and developed scalable RESTful APIs and backend systems for Focult, an enterprise SaaS platform, supporting employee monitoring, productivity analytics, and compliance reporting modules.',
+      'Built dual-component Windows Agent applications (Login Agent and Background Service Agent) in Python for secure authentication, device registration, and silent real-time activity monitoring and data sync with backend APIs.',
+      'Implemented JWT-based authentication and Role-Based Access Control (RBAC) across multi-tenant organizational hierarchies.',
+      'Optimized MySQL and PostgreSQL queries, reducing average response times by approximately 35%.',
+      'Implemented Celery-based asynchronous task processing for scheduled jobs, reports, and notifications within an Agile development workflow.',
+      'Led a team of 4 developers — managing sprint planning, task allocation, and timely feature delivery — and mentored 2 junior engineers on Python, Django, API development, and backend best practices.',
+    ],
   },
 ]
 
@@ -229,10 +278,31 @@ export const education = [
   },
 ]
 
+// Headline numbers shown in the stats bar under the hero.
+export const stats = [
+  { metric: '1+', label: 'Years experience' },
+  { metric: '500+', label: 'Endpoints monitored' },
+  { metric: '~35%', label: 'Faster queries' },
+  { metric: '4', label: 'Developers led' },
+]
+
+// Core stack shown as a static strip under the hero.
+export const techStack = [
+  'Python',
+  'Django',
+  'DRF',
+  'PostgreSQL',
+  'MySQL',
+  'Celery',
+  'Redis',
+  'JWT',
+]
+
 export const marquee = [
   'Backend Developer',
   'Python · Django',
   'REST APIs',
   'PostgreSQL',
+  'Celery · Redis',
   'Scalable Systems',
 ]

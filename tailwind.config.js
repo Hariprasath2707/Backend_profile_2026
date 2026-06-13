@@ -13,31 +13,38 @@ export default {
         accent2: 'rgb(var(--color-accent2) / <alpha-value>)',
       },
       fontFamily: {
-        display: ['Fraunces', 'Georgia', 'serif'],
-        sans: ['Geist', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+        display: ['"PT Serif"', 'Georgia', 'serif'],
+        sans: ['"PT Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        mono: ['"PT Mono"', 'ui-monospace', 'monospace'],
       },
       letterSpacing: {
         tightest: '-0.04em',
       },
+      // Smooth ease-out curve used as the default for every `transition-*`
+      // utility, so all hovers/color/transform transitions feel consistent.
+      transitionTimingFunction: {
+        DEFAULT: 'cubic-bezier(0.22, 1, 0.36, 1)',
+        smooth: 'cubic-bezier(0.22, 1, 0.36, 1)',
+      },
+      transitionDuration: {
+        DEFAULT: '250ms',
+      },
       keyframes: {
         'fade-up': {
-          '0%': { opacity: '0', transform: 'translateY(24px)' },
+          '0%': { opacity: '0', transform: 'translateY(22px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
-        'marquee': {
-          '0%': { transform: 'translateX(0)' },
-          '100%': { transform: 'translateX(-50%)' },
-        },
+        /* translate-only: scaling a blurred layer re-rasterizes the blur
+           every frame, which is expensive. Translate reuses the cached
+           layer, so the drift stays GPU-cheap. */
         'float': {
-          '0%, 100%': { transform: 'translate(0, 0) scale(1)' },
-          '50%': { transform: 'translate(30px, -20px) scale(1.08)' },
+          '0%, 100%': { transform: 'translate3d(0, 0, 0)' },
+          '50%': { transform: 'translate3d(30px, -20px, 0)' },
         },
       },
       animation: {
-        'fade-up': 'fade-up 0.7s cubic-bezier(0.22,1,0.36,1) forwards',
-        'marquee': 'marquee 28s linear infinite',
-        'float': 'float 14s ease-in-out infinite',
+        'fade-up': 'fade-up 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        'float': 'float 18s ease-in-out infinite',
       },
     },
   },

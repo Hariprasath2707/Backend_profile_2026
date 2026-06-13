@@ -54,13 +54,13 @@ Code) is kept. Edit the per-project detail fields in `src/data/content.js`.
 ### Theme, motion & SEO
 Light/dark toggle (remembered between visits), scroll-reveal animations, a
 scroll-progress bar, plus full SEO + Open Graph/Twitter meta and a pre-made
-`public/og-image.png` share image.
+`public/og-image.webp` share image.
 
 ## Project structure
 
 ```
 public/
-  Hariprasath_Resume.pdf   profile.jpg   og-image.png   favicon.svg
+  Hariprasath_Resume.pdf   profile.jpg   og-image.webp   favicon.svg
   _redirects               ← Netlify SPA routing
 src/
   data/content.js          ← edit this (all your text + project details)

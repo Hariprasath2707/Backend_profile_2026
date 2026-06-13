@@ -62,7 +62,7 @@ export default function ExperienceDetail() {
           </Link>
           <Link
             to={{ pathname: '/', hash: '#contact' }}
-            className="font-mono text-xs uppercase tracking-widest bg-accent text-ink px-5 py-2.5 rounded-full hover:bg-paper transition-colors"
+            className="btn-primary px-5 py-2.5"
           >
             Get in touch →
           </Link>

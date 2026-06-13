@@ -21,7 +21,7 @@ export function useTheme() {
       /* ignore storage errors (e.g. private mode) */
     }
     const meta = document.querySelector('meta[name="theme-color"]')
-    if (meta) meta.setAttribute('content', theme === 'light' ? '#f7f4ed' : '#0d0c0a')
+    if (meta) meta.setAttribute('content', theme === 'light' ? '#f2f3f5' : '#14171c')
   }, [theme])
 
   const toggle = () => setTheme((t) => (t === 'light' ? 'dark' : 'light'))

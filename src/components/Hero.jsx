@@ -1,28 +1,31 @@
 import { profile, socials } from '../data/content'
-import BinaryBackdrop from './BinaryBackdrop'
+import Constellation from './Constellation'
 
 export default function Hero() {
   // helper to stagger the load-in animation
   const delay = (ms) => ({ animationDelay: `${ms}ms` })
 
   return (
-    <section id="top" className="relative min-h-screen flex items-center px-6 pt-24 pb-16 overflow-hidden">
-      {/* Minimal binary backdrop */}
-      <BinaryBackdrop />
-
-      {/* Animated background glow */}
+    <section
+      id="top"
+      className="relative min-h-screen flex items-center px-6 pt-24 pb-16 overflow-hidden border-b border-line"
+    >
+      {/* Static background glow — intensity is theme-aware (see index.css).
+          Kept static (no animation) so the large blurred layers don't
+          re-composite every frame. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -top-32 -left-24 w-[40rem] h-[40rem] rounded-full opacity-40 blur-3xl animate-float"
-        style={{ background: 'radial-gradient(circle, rgb(var(--color-accent) / 0.35), transparent 65%)' }}
+        className="hero-glow-1 pointer-events-none absolute -top-32 -left-24 w-[40rem] h-[40rem] rounded-full blur-2xl"
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute bottom-0 right-0 w-[32rem] h-[32rem] rounded-full opacity-30 blur-3xl animate-float"
-        style={{ animationDelay: '-7s', background: 'radial-gradient(circle, rgb(var(--color-accent2) / 0.3), transparent 65%)' }}
+        className="hero-glow-2 pointer-events-none absolute bottom-0 right-0 w-[32rem] h-[32rem] rounded-full blur-2xl"
       />
 
-      <div className="relative mx-auto max-w-5xl w-full">
+      {/* Interactive constellation network — full-bleed hero background */}
+      <Constellation className="pointer-events-none absolute inset-0 w-full h-full" />
+
+      <div className="relative mx-auto max-w-6xl w-full pointer-events-none grid lg:grid-cols-2 gap-12 items-center">
         {/* Intro */}
         <div>
           {profile.available && (
@@ -39,7 +42,7 @@ export default function Hero() {
             {profile.role} · {profile.location}
           </p>
 
-          <h1 className="reveal-load font-display tracking-tightest leading-[0.92] text-6xl sm:text-8xl" style={delay(160)}>
+          <h1 className="reveal-load font-display tracking-tightest leading-[0.95] text-5xl sm:text-7xl" style={delay(160)}>
             {profile.name}
           </h1>
 
@@ -47,26 +50,19 @@ export default function Hero() {
             {profile.tagline}
           </p>
 
-          <div className="reveal-load mt-10 flex flex-wrap items-center gap-4" style={delay(360)}>
-            <a
-              href="#work"
-              className="group font-mono text-xs uppercase tracking-widest bg-accent text-ink px-6 py-3 rounded-full hover:bg-paper transition-colors"
-            >
+          <div className="reveal-load mt-10 flex flex-wrap items-center gap-4 pointer-events-auto" style={delay(360)}>
+            <a href="#work" className="btn-primary group px-6 py-3">
               View work
-              <span className="inline-block ml-2 group-hover:translate-x-1 transition-transform">↓</span>
+              <span className="inline-block ml-2 group-hover:translate-y-0.5 transition-transform">↓</span>
             </a>
             {profile.resumeUrl && (
-              <a
-                href={profile.resumeUrl}
-                download
-                className="font-mono text-xs uppercase tracking-widest border border-line px-6 py-3 rounded-full hover:border-paper transition-colors"
-              >
+              <a href={profile.resumeUrl} target="_blank" rel="noreferrer" className="btn-ghost px-6 py-3">
                 Résumé
               </a>
             )}
           </div>
 
-          <div className="reveal-load mt-14 flex flex-wrap gap-6" style={delay(460)}>
+          <div className="reveal-load mt-14 flex flex-wrap gap-6 pointer-events-auto" style={delay(460)}>
             {socials.map((s) => (
               <a
                 key={s.label}
@@ -80,9 +76,33 @@ export default function Hero() {
             ))}
           </div>
         </div>
+
+        {/* Quick-facts spec card — balances the right half over the constellation */}
+        <div
+          className="reveal-load hidden lg:block select-none"
+          style={delay(540)}
+          aria-hidden
+        >
+          <dl className="rounded-2xl border border-line bg-surface/40 divide-y divide-line overflow-hidden">
+            {[
+              ['Role', profile.role],
+              ['Based in', profile.location],
+              ['Experience', '1+ years'],
+              ['Focus', 'Python · Django · REST APIs'],
+              ['Currently', 'Backend @ Emayam Technology'],
+            ].map(([k, v]) => (
+              <div key={k} className="flex items-baseline justify-between gap-6 px-5 py-4">
+                <dt className="font-mono text-[10px] uppercase tracking-widest text-muted shrink-0">
+                  {k}
+                </dt>
+                <dd className="text-right text-paper/90">{v}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
       </div>
 
-      <span className="pointer-events-none select-none absolute right-6 bottom-6 font-mono text-xs text-line tracking-widest">
+      <span className="pointer-events-none select-none absolute right-6 bottom-6 font-mono text-xs text-muted/60 tracking-widest">
         00 / PORTFOLIO
       </span>
     </section>

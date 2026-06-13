@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Hero right-side options — Hariprasath portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=PT+Sans:wght@400;700&family=PT+Mono&display=swap" rel="stylesheet" />
+<style>
+  :root{ --ink:#14171C; --surface:#1D2128; --surface2:#23272F; --line:#2E343E; --paper:#E6E8EC; --muted:#889099; --accent:#9B2D3A; --accent2:#6B7785; }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ font-family:'PT Sans',system-ui,sans-serif; background:#0E1014; color:var(--paper); padding:40px 32px 80px; }
+  h1{ font-family:'PT Serif',serif; font-weight:700; font-size:28px; letter-spacing:-0.01em; }
+  .sub{ color:var(--muted); margin:10px 0 36px; font-size:14px; line-height:1.6; max-width:780px; }
+  .sub b{ color:var(--paper); }
+  .grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(440px,1fr)); gap:26px; }
+  .wrap{ }
+  .name{ font:700 13px/1 'PT Sans',sans-serif; letter-spacing:0.02em; margin-bottom:10px; display:flex; align-items:center; gap:10px; }
+  .name .n{ color:var(--accent); font-family:'PT Mono',monospace; }
+  .desc{ color:var(--muted); font-size:12px; margin:0 0 12px; line-height:1.5; }
+
+  /* the themed hero-right box */
+  .box{ border:1px solid var(--line); border-radius:16px; background:rgba(29,33,40,.8); overflow:hidden; box-shadow:0 24px 60px -28px rgba(0,0,0,.7); }
+  .bar{ display:flex; align-items:center; gap:7px; padding:11px 15px; border-bottom:1px solid var(--line); }
+  .bar i{ width:11px; height:11px; border-radius:50%; display:inline-block; }
+  .bar .ttl{ margin-left:6px; font:400 11px 'PT Mono',monospace; color:var(--muted); }
+  .body{ padding:18px; font:400 13px/1.7 'PT Mono',monospace; }
+  .m{ color:var(--accent); } .k{ color:var(--accent2); } .c{ color:var(--muted); } .s{ color:#9ec1a0; }
+  .ok{ color:#86b38a; }
+
+  /* code editor */
+  .code .ln{ display:flex; gap:14px; }
+  .code .num{ color:var(--muted); opacity:.6; width:14px; text-align:right; user-select:none; }
+
+  /* architecture */
+  .arch{ padding:22px 18px; display:flex; flex-direction:column; gap:0; align-items:center; }
+  .node{ width:78%; text-align:center; padding:11px; border:1px solid var(--line); border-radius:10px; background:var(--surface2); font:400 12px 'PT Mono',monospace; }
+  .node.accent{ border-color:var(--accent); color:var(--paper); }
+  .arrow{ color:var(--muted); font-size:14px; padding:5px 0; }
+  .split{ display:flex; gap:10px; width:78%; }
+  .split .node{ width:50%; }
+
+  /* metrics dashboard */
+  .dash{ padding:18px; }
+  .tiles{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+  .tile{ border:1px solid var(--line); border-radius:10px; padding:12px; background:var(--surface2); text-align:center; }
+  .tile .v{ font:700 20px 'PT Serif',serif; color:var(--paper); }
+  .tile .v b{ color:var(--accent); font-weight:700; }
+  .tile .l{ font:400 8.5px 'PT Mono',monospace; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin-top:5px; }
+  .spark{ display:flex; align-items:flex-end; gap:4px; height:46px; margin-top:14px; padding-top:14px; border-top:1px solid var(--line); }
+  .spark span{ flex:1; background:var(--accent); opacity:.55; border-radius:3px 3px 0 0; }
+
+  /* request log */
+  .log .row{ display:grid; grid-template-columns:46px 1fr auto auto; gap:10px; padding:5px 0; align-items:center; }
+  .badge{ font:400 10px 'PT Mono',monospace; }
+
+  /* tech grid */
+  .chips{ padding:20px 18px; display:flex; flex-wrap:wrap; gap:9px; }
+  .chip{ font:400 12px 'PT Mono',monospace; border:1px solid var(--line); border-radius:999px; padding:7px 13px; color:var(--paper); opacity:.85; background:var(--surface2); }
+  .chip.hot{ border-color:var(--accent); color:var(--accent); }
+
+  /* profile */
+  .pf{ padding:22px; display:flex; gap:16px; align-items:center; }
+  .avatar{ width:78px; height:78px; border-radius:16px; flex:none; background:
+      radial-gradient(120% 120% at 30% 20%, var(--accent), transparent 60%), var(--surface2);
+      display:flex; align-items:center; justify-content:center; font:700 26px 'PT Serif',serif; color:var(--paper); border:1px solid var(--line); }
+  .pf .nm{ font:700 19px 'PT Serif',serif; }
+  .pf .rl{ color:var(--muted); font-size:12.5px; margin-top:3px; }
+  .pf .av{ margin-top:9px; font:400 10px 'PT Mono',monospace; letter-spacing:.08em; text-transform:uppercase; color:var(--accent2); display:inline-flex; gap:6px; align-items:center; }
+  .pf .dot{ width:7px; height:7px; border-radius:50%; background:#86b38a; display:inline-block; }
+
+  /* db schema */
+  .db{ padding:18px; display:flex; gap:14px; }
+  .tbl{ flex:1; border:1px solid var(--line); border-radius:10px; overflow:hidden; background:var(--surface2); }
+  .tbl .h{ background:var(--accent); color:#fff; font:400 11px 'PT Mono',monospace; padding:7px 10px; }
+  .tbl .f{ font:400 11px/1.9 'PT Mono',monospace; padding:8px 10px; color:var(--muted); }
+  .tbl .f b{ color:var(--paper); font-weight:400; }
+
+  /* quote / philosophy */
+  .quote{ padding:24px 20px; }
+  .quote .q{ font:400 19px/1.45 'PT Serif',serif; color:var(--paper); }
+  .quote .q::first-letter{ color:var(--accent); }
+  .quote .by{ margin-top:14px; font:400 10px 'PT Mono',monospace; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); }
+</style>
+</head>
+<body>
+  <h1>Hero right-side box — replacement ideas</h1>
+  <p class="sub">Each option is what would sit in the empty right half of the <b>#top</b> hero, rendered in your current Slate&nbsp;+&nbsp;burgundy theme and PT fonts. Tell me the number/name you want (e.g. "go with 5, the metrics dashboard") and I'll build it into the real hero.</p>
+  <div class="grid" id="grid"></div>
+
+<script>
+const dots = `<i style="background:var(--accent)"></i><i style="background:var(--accent2)"></i><i style="background:var(--muted);opacity:.5"></i>`;
+
+const options = [
+  { name:'1 · API / terminal (current)', desc:'A faux curl request + JSON response. On-brand for an API-focused backend dev.',
+    html:`<div class="box"><div class="bar">${dots}<span class="ttl">focult-api ~ zsh</span></div>
+      <div class="body">
+        <div><span class="c">$</span> <span class="m">curl</span> -X <span class="m">POST</span> /api/v1/auth/login</div>
+        <div class="c">{ "email": "h@emayam.io", "password": "•••••" }</div>
+        <div style="margin-top:8px"><span class="ok">→ 200 OK</span> <span class="c">· 38ms</span></div>
+        <div>{</div>
+        <div>&nbsp;&nbsp;<span class="k">"token"</span>: <span class="c">"eyJhbGci…"</span>,</div>
+        <div>&nbsp;&nbsp;<span class="k">"role"</span>: <span class="c">"admin"</span></div>
+        <div>}</div>
+        <div style="margin-top:10px" class="c"><span class="m">#</span> JWT · RBAC · multi-tenant</div>
+      </div></div>` },
+
+  { name:'2 · Code editor (Python/Django)', desc:'A syntax-highlighted DRF view with line numbers — shows real code, not just output.',
+    html:`<div class="box"><div class="bar">${dots}<span class="ttl">views.py</span></div>
+      <div class="body code">
+        <div class="ln"><span class="num">1</span><span><span class="m">class</span> <span class="s">LoginView</span>(APIView):</span></div>
+        <div class="ln"><span class="num">2</span><span>&nbsp;&nbsp;<span class="m">def</span> <span class="k">post</span>(self, request):</span></div>
+        <div class="ln"><span class="num">3</span><span>&nbsp;&nbsp;&nbsp;&nbsp;user = <span class="k">authenticate</span>(**request.data)</span></div>
+        <div class="ln"><span class="num">4</span><span>&nbsp;&nbsp;&nbsp;&nbsp;token = <span class="k">issue_jwt</span>(user)</span></div>
+        <div class="ln"><span class="num">5</span><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="m">return</span> Response({<span class="c">"token"</span>: token})</span></div>
+      </div></div>` },
+
+  { name:'3 · Architecture diagram', desc:'A small request-flow diagram: client → API → database, with the async stack on the side.',
+    html:`<div class="box"><div class="bar">${dots}<span class="ttl">request flow</span></div>
+      <div class="arch">
+        <div class="node">Client / Windows Agent</div>
+        <div class="arrow">↓</div>
+        <div class="node accent">Django REST API · JWT</div>
+        <div class="arrow">↓</div>
+        <div class="split"><div class="node">PostgreSQL</div><div class="node">Celery · Redis</div></div>
+      </div></div>` },
+
+  { name:'4 · JSON response viewer', desc:'A clean, pretty-printed JSON payload — minimal and developer-flavored.',
+    html:`<div class="box"><div class="bar">${dots}<span class="ttl">GET /api/v1/me · 200</span></div>
+      <div class="body">
+        <div>{</div>
+        <div>&nbsp;&nbsp;<span class="k">"name"</span>: <span class="c">"Hariprasath V"</span>,</div>
+        <div>&nbsp;&nbsp;<span class="k">"role"</span>: <span class="c">"Backend Developer"</span>,</div>
+        <div>&nbsp;&nbsp;<span class="k">"stack"</span>: [<span class="c">"Django"</span>, <span class="c">"DRF"</span>],</div>
+        <div>&nbsp;&nbsp;<span class="k">"experience"</span>: <span class="s">1.2</span>,</div>
+        <div>&nbsp;&nbsp;<span class="k">"available"</span>: <span class="s">true</span></div>
+        <div>}</div>
+      </div></div>` },
+
+  { name:'5 · Metrics dashboard', desc:'Live-looking ops tiles (uptime, p95 latency, req/s) plus a sparkline. Feels like a real monitoring panel.',
+    html:`<div class="box"><div class="bar">${dots}<span class="ttl">system · live</span></div>
+      <div class="dash">
+        <div class="tiles">
+          <div class="tile"><div class="v">99.9<b>%</b></div><div class="l">Uptime</div></div>
+          <div class="tile"><div class="v">38<b>ms</b></div><div class="l">p95</div></div>
+          <div class="tile"><div class="v">1.2<b>k</b></div><div class="l">req/s</div></div>
+        </div>
+        <div class="spark">
+          ${[40,55,38,62,48,70,52,66,44,72,58,80].map(h=>`<span style="height:${h}%"></span>`).join('')}
+        </div>
+      </div></div>` },
+
+  { name:'6 · Request log monitor', desc:'A stream of API requests with method, path, status and latency — dynamic and techy.',
+    html:`<div class="box"><div class="bar">${dots}<span class="ttl">access.log · tail -f</span></div>
+      <div class="body log">
+        <div class="row"><span class="m">GET</span><span class="c">/api/v1/users</span><span class="badge ok">200</span><span class="c">12ms</span></div>
+        <div class="row"><span class="m">POST</span><span class="c">/auth/login</span><span class="badge ok">200</span><span class="c">38ms</span></div>
+        <div class="row"><span class="m">POST</span><span class="c">/reports/export</span><span class="badge ok">201</span><span class="c">64ms</span></div>
+        <div class="row"><span class="m">GET</span><span class="c">/api/v1/activity</span><span class="badge ok">200</span><span class="c">9ms</span></div>
+        <div class="row"><span class="m">PATCH</span><span class="c">/devices/42</span><span class="badge ok">200</span><span class="c">21ms</span></div>
+      </div></div>` },
+
+  { name:'7 · Tech-stack grid', desc:'A focused card of the core stack as chips (you already have a stack strip below, so this may be redundant).',
+    html:`<div class="box"><div class="bar">${dots}<span class="ttl">stack</span></div>
+      <div class="chips">
+        <span class="chip hot">Python</span><span class="chip hot">Django</span><span class="chip">DRF</span>
+        <span class="chip">PostgreSQL</span><span class="chip">MySQL</span><span class="chip">Celery</span>
+        <span class="chip">Redis</span><span class="chip">JWT</span><span class="chip">Docker</span>
+      </div></div>` },
+
+  { name:'8 · Profile photo card', desc:'A framed portrait + name/role and an "available" status. Warmer and more personal than code.',
+    html:`<div class="box"><div class="pf">
+        <div class="avatar">HV</div>
+        <div>
+          <div class="nm">Hariprasath V</div>
+          <div class="rl">Backend Developer · Chennai</div>
+          <div class="av"><span class="dot"></span> Open to opportunities</div>
+        </div>
+      </div></div>` },
+
+  { name:'9 · Database schema', desc:'Two related tables with fields — signals data-modeling / schema-design strength.',
+    html:`<div class="box"><div class="bar">${dots}<span class="ttl">schema.sql</span></div>
+      <div class="db">
+        <div class="tbl"><div class="h">users</div><div class="f"><b>id</b> uuid<br><b>email</b> text<br><b>role</b> enum<br><b>tenant_id</b> fk</div></div>
+        <div class="tbl"><div class="h">tenants</div><div class="f"><b>id</b> uuid<br><b>name</b> text<br><b>plan</b> text</div></div>
+      </div></div>` },
+
+  { name:'10 · Statement / philosophy', desc:'A short bold engineering credo set in the display serif. Editorial and confident.',
+    html:`<div class="box"><div class="quote">
+        <div class="q">“I build backends that stay fast and correct as they scale — clean APIs, sane data models, no surprises.”</div>
+        <div class="by">— Engineering principle</div>
+      </div></div>` },
+];
+
+const grid = document.getElementById('grid');
+for (const o of options) {
+  const el = document.createElement('div');
+  el.className = 'wrap';
+  el.innerHTML = `<div class="name"><span class="n">${o.name}</span></div><div class="desc">${o.desc}</div>${o.html}`;
+  grid.appendChild(el);
+}
+</script>
+</body>
+</html>

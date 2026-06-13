@@ -1,14 +1,13 @@
 import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { profile } from '../data/content'
 
-const BASE = import.meta.env.BASE_URL
-
 const links = [
-  { label: 'Work', href: `${BASE}#work` },
-  { label: 'About', href: `${BASE}#about` },
-  { label: 'Experience', href: `${BASE}#experience` },
-  { label: 'Education', href: `${BASE}#education` },
-  { label: 'Contact', href: `${BASE}#contact` },
+  { label: 'Work', hash: '#work' },
+  { label: 'About', hash: '#about' },
+  { label: 'Experience', hash: '#experience' },
+  { label: 'Education', hash: '#education' },
+  { label: 'Contact', hash: '#contact' },
 ]
 
 function ThemeToggle({ theme, toggle }) {
@@ -16,8 +15,9 @@ function ThemeToggle({ theme, toggle }) {
     <button
       onClick={toggle}
       aria-label="Toggle color theme"
-      className="grid place-items-center w-9 h-9 rounded-full border border-line text-muted hover:text-accent hover:border-accent transition-colors"
+      className="group grid place-items-center w-9 h-9 rounded-full border border-line text-muted hover:text-accent hover:border-accent transition-colors"
     >
+      <span className="grid place-items-center transition-transform duration-500 group-hover:rotate-[40deg]">
       {theme === 'light' ? (
         // moon
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -30,6 +30,7 @@ function ThemeToggle({ theme, toggle }) {
           <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
         </svg>
       )}
+      </span>
     </button>
   )
 }
@@ -40,7 +41,7 @@ export default function Nav({ theme, toggle }) {
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
-    window.addEventListener('scroll', onScroll)
+    window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
@@ -51,32 +52,32 @@ export default function Nav({ theme, toggle }) {
       }`}
     >
       <nav className="mx-auto max-w-6xl px-6 h-20 flex items-center justify-between">
-        <a href={`${BASE}#top`} className="font-display text-xl tracking-tightest">
+        <Link to={{ pathname: '/', hash: '#top' }} className="font-display text-xl tracking-tightest">
           {profile.name.split(' ')[0]}
           <span className="text-accent">.</span>
-        </a>
+        </Link>
 
         <ul className="hidden md:flex items-center gap-8">
           {links.map((l) => (
-            <li key={l.href}>
-              <a
-                href={l.href}
-                className="font-mono text-sm uppercase tracking-widest text-muted hover:text-paper transition-colors"
+            <li key={l.hash}>
+              <Link
+                to={{ pathname: '/', hash: l.hash }}
+                className="nav-link"
               >
                 {l.label}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
 
         <div className="hidden md:flex items-center gap-4">
           <ThemeToggle theme={theme} toggle={toggle} />
-          <a
-            href={BASE + '#contact'}
+          <Link
+            to={{ pathname: '/', hash: '#contact' }}
             className="font-mono text-sm uppercase tracking-widest border border-line px-4 py-2 rounded-full hover:border-accent hover:text-accent transition-colors"
           >
             Get in touch
-          </a>
+          </Link>
         </div>
 
         {/* Mobile controls */}
@@ -86,6 +87,7 @@ export default function Nav({ theme, toggle }) {
             className="font-mono text-xs uppercase tracking-widest text-paper"
             onClick={() => setOpen((v) => !v)}
             aria-label="Toggle menu"
+            aria-expanded={open}
           >
             {open ? 'Close' : 'Menu'}
           </button>
@@ -95,14 +97,14 @@ export default function Nav({ theme, toggle }) {
       {open && (
         <ul className="md:hidden border-t border-line bg-ink/95 backdrop-blur-md px-6 py-4 space-y-3">
           {links.map((l) => (
-            <li key={l.href}>
-              <a
-                href={l.href}
+            <li key={l.hash}>
+              <Link
+                to={{ pathname: '/', hash: l.hash }}
                 onClick={() => setOpen(false)}
                 className="block font-mono text-sm uppercase tracking-widest text-muted hover:text-paper"
               >
                 {l.label}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>

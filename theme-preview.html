@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Palette reference — Hariprasath portfolio</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=JetBrains+Mono:wght@400;500&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    background: #1a1a1a;
+    color: #eee;
+    padding: 40px 32px 80px;
+  }
+  h1 { font-family: 'Fraunces', serif; font-weight: 600; font-size: 28px; letter-spacing: -0.02em; }
+  .sub { color: #999; margin: 10px 0 36px; font-size: 14px; line-height: 1.6; max-width: 720px; }
+  .sub b { color: #ddd; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 26px;
+  }
+  .card {
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 20px 50px -20px rgba(0,0,0,0.6);
+  }
+  .label {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 11px 16px;
+    font: 500 12px/1 'JetBrains Mono', monospace;
+    letter-spacing: 0.08em;
+    background: #111; color: #ccc;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .swatches { display: flex; gap: 5px; }
+  .sw { width: 14px; height: 14px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.15); }
+
+  /* themed mock — variables set per card via inline style */
+  .mock {
+    padding: 22px 22px 24px;
+    background:
+      radial-gradient(120% 80% at 0% -10%, var(--glow), transparent 60%),
+      radial-gradient(90% 60% at 100% 110%, var(--glow2), transparent 55%),
+      var(--ink);
+    color: var(--paper);
+  }
+  .eyebrow { font: 500 9.5px/1 'JetBrains Mono', monospace; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent); }
+  .name { font-family: 'Fraunces', serif; font-weight: 600; font-size: 34px; letter-spacing: -0.03em; margin: 9px 0 0; line-height: 1; }
+  .name .dot { color: var(--accent); }
+  .tag { color: var(--muted); font-size: 12.5px; margin-top: 9px; line-height: 1.5; max-width: 90%; }
+  .btns { display: flex; gap: 9px; margin-top: 15px; }
+  .btn-primary { background: var(--accent); color: var(--ink); font: 600 10px/1 'JetBrains Mono', monospace; letter-spacing: 0.08em; text-transform: uppercase; padding: 10px 16px; border-radius: 999px; }
+  .btn-ghost { border: 1px solid var(--line); color: var(--muted); font: 600 10px/1 'JetBrains Mono', monospace; letter-spacing: 0.08em; text-transform: uppercase; padding: 10px 16px; border-radius: 999px; }
+
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 20px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 14px 0; }
+  .stat .num { font-family: 'Fraunces', serif; font-weight: 600; font-size: 19px; color: var(--paper); letter-spacing: -0.02em; }
+  .stat .num span { color: var(--accent); }
+  .stat .lbl { font: 500 8px/1.3 'JetBrains Mono', monospace; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-top: 4px; }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
+  .chip { font: 500 9.5px/1 'JetBrains Mono', monospace; letter-spacing: 0.04em; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 6px 10px; background: var(--surface); }
+
+  .proj { margin-top: 16px; border: 1px solid var(--line); border-radius: 12px; padding: 14px; background: var(--surface); }
+  .proj-top { display: flex; align-items: baseline; justify-content: space-between; }
+  .proj-title { font-family: 'Fraunces', serif; font-weight: 600; font-size: 16px; letter-spacing: -0.02em; }
+  .proj-year { font: 500 9px 'JetBrains Mono', monospace; color: var(--muted); }
+  .proj-blurb { color: var(--muted); font-size: 11px; line-height: 1.5; margin-top: 7px; }
+  .proj-tags { display: flex; gap: 6px; margin-top: 10px; }
+  .proj-tag { font: 500 8.5px 'JetBrains Mono', monospace; color: var(--accent); }
+
+  .terminal { margin-top: 16px; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--surface); }
+  .term-bar { display: flex; gap: 6px; align-items: center; padding: 8px 12px; border-bottom: 1px solid var(--line); }
+  .term-bar i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+  .term-body { padding: 12px 14px; font: 500 10.5px/1.65 'JetBrains Mono', monospace; }
+  .term-body .m { color: var(--accent); }
+  .term-body .k { color: var(--accent2); }
+  .term-body .c { color: var(--muted); }
+</style>
+</head>
+<body>
+  <h1>Palette reference</h1>
+  <p class="sub">Each tile is a realistic mini-mockup of your portfolio — hero, accent button, the new <b>stats bar</b>, <b>tech-stack chips</b>, an <b>API/terminal card</b>, and a project card — rendered in that theme's real colors. Tell me the name of the one you want (or mix: "X background with Y accent").</p>
+  <div class="grid" id="grid"></div>
+
+<script>
+const themes = [
+  { name: 'Amber / terminal', ink:'#0C0A07', surface:'#15120C', line:'#2C261A', paper:'#F2EEE6', muted:'#9A9080', accent:'#F5A623', accent2:'#E26D5C' },
+  { name: 'Teal + coral', ink:'#08130F', surface:'#0F1D18', line:'#1E332B', paper:'#E9F1ED', muted:'#84968F', accent:'#2DD4BF', accent2:'#FB7185' },
+  { name: 'Indigo + amber', ink:'#0C0E1A', surface:'#141728', line:'#272B45', paper:'#E8E9F2', muted:'#8B90A8', accent:'#6366F1', accent2:'#FBBF24' },
+  { name: 'Crimson + slate', ink:'#0E1013', surface:'#171A1F', line:'#2A2F38', paper:'#ECEEF1', muted:'#8C929C', accent:'#EF4444', accent2:'#64748B' },
+  { name: 'Navy + gold', ink:'#0B1220', surface:'#131C2E', line:'#26344A', paper:'#EDE7D6', muted:'#8B95A7', accent:'#C9A24B', accent2:'#6E8CB0' },
+  { name: 'Forest + cream', ink:'#0C140F', surface:'#14201A', line:'#23332B', paper:'#ECE8D9', muted:'#8A968B', accent:'#4F9D69', accent2:'#C7A559' },
+  { name: 'Burgundy + cream', ink:'#150B0E', surface:'#221317', line:'#3A2329', paper:'#EFE6DC', muted:'#A18B8B', accent:'#B23A48', accent2:'#C9A26A' },
+  { name: 'Cool slate + blue', ink:'#0E1117', surface:'#161B24', line:'#2A3240', paper:'#E6EBF2', muted:'#8A93A3', accent:'#3B82F6', accent2:'#22D3EE' },
+  { name: 'Black + white (current)', ink:'#0A0A0A', surface:'#161616', line:'#2A2A2A', paper:'#FAFAFA', muted:'#9A9A9A', accent:'#E5E5E5', accent2:'#777777' },
+  { name: 'Warm orange (original)', ink:'#0D0C0A', surface:'#16140F', line:'#2E2A21', paper:'#F3EDE0', muted:'#9E9788', accent:'#FF5C35', accent2:'#D8C08A' },
+
+  // ── more options ──────────────────────────────────────────
+  { name: 'Cyberpunk (magenta + cyan)', ink:'#0A0712', surface:'#140C1E', line:'#2B1B3D', paper:'#F0E9F7', muted:'#9486A8', accent:'#F92AAD', accent2:'#27E8E8' },
+  { name: 'Dracula', ink:'#1A1B26', surface:'#22232F', line:'#363849', paper:'#F8F8F2', muted:'#9094A6', accent:'#BD93F9', accent2:'#50FA7B' },
+  { name: 'Nord (arctic)', ink:'#10141C', surface:'#1A2029', line:'#2E3848', paper:'#ECEFF4', muted:'#8A93A5', accent:'#88C0D0', accent2:'#A3BE8C' },
+  { name: 'Gruvbox', ink:'#1D2021', surface:'#282828', line:'#3C3836', paper:'#FBF1C7', muted:'#A89984', accent:'#FE8019', accent2:'#B8BB26' },
+  { name: 'Solarized dark', ink:'#002B36', surface:'#073642', line:'#0E4A57', paper:'#EEE8D5', muted:'#839496', accent:'#268BD2', accent2:'#2AA198' },
+  { name: 'Monokai', ink:'#1A1B17', surface:'#26271F', line:'#3C3D32', paper:'#F8F8F2', muted:'#9C9B86', accent:'#A6E22E', accent2:'#FD971F' },
+  { name: 'Rose / pink', ink:'#140A0F', surface:'#1F1117', line:'#372029', paper:'#F6E9EE', muted:'#A88B96', accent:'#FB6F92', accent2:'#FFB3C6' },
+  { name: 'Ocean blue', ink:'#06141F', surface:'#0C2030', line:'#163348', paper:'#E4EEF5', muted:'#7E94A4', accent:'#38BDF8', accent2:'#5EEAD4' },
+  { name: 'Royal purple + gold', ink:'#0E0A18', surface:'#170F26', line:'#2C2042', paper:'#EDE8F5', muted:'#938AA8', accent:'#9D4EDD', accent2:'#E0B341' },
+  { name: 'Copper / bronze', ink:'#0F0B08', surface:'#1A130D', line:'#322619', paper:'#F2E9DD', muted:'#9C8E7C', accent:'#C87941', accent2:'#D9A86C' },
+  { name: 'Mint + charcoal', ink:'#0B1110', surface:'#131C1A', line:'#243531', paper:'#E8F2EF', muted:'#85988F', accent:'#5EEAD4', accent2:'#A7F3D0' },
+  { name: 'Sunset (orange→pink)', ink:'#140A0B', surface:'#1F1012', line:'#39201F', paper:'#F6EAE4', muted:'#A88E84', accent:'#FF7B54', accent2:'#FFB26B' },
+  { name: 'Lime + slate', ink:'#0D0F0A', surface:'#161A10', line:'#2A311D', paper:'#EEF2E4', muted:'#94997F', accent:'#A3E635', accent2:'#65A30D' },
+  { name: 'Ice (light)', ink:'#F4F8FB', surface:'#E8EFF5', line:'#CFDCE8', paper:'#16222E', muted:'#5C7184', accent:'#0EA5E9', accent2:'#6366F1' },
+
+  // ── third batch ───────────────────────────────────────────
+  { name: 'Tokyo Night', ink:'#1A1B26', surface:'#24283B', line:'#34395A', paper:'#C0CAF5', muted:'#787C99', accent:'#7AA2F7', accent2:'#BB9AF7' },
+  { name: 'Catppuccin Mocha', ink:'#1E1E2E', surface:'#28283D', line:'#45475A', paper:'#CDD6F4', muted:'#8087A2', accent:'#CBA6F7', accent2:'#F5C2E7' },
+  { name: 'One Dark (Atom)', ink:'#21252B', surface:'#282C34', line:'#3B414D', paper:'#ABB2BF', muted:'#7F858F', accent:'#61AFEF', accent2:'#98C379' },
+  { name: "Synthwave '84", ink:'#1A1126', surface:'#261A38', line:'#3D2A57', paper:'#F4EEFF', muted:'#9A86C4', accent:'#FF2EA6', accent2:'#36F9F6' },
+  { name: 'Everforest', ink:'#2B3339', surface:'#323C41', line:'#475258', paper:'#D3C6AA', muted:'#9DA9A0', accent:'#A7C080', accent2:'#E69875' },
+  { name: 'Kanagawa', ink:'#1F1F28', surface:'#2A2A37', line:'#3C3C4F', paper:'#DCD7BA', muted:'#8E8B82', accent:'#7E9CD8', accent2:'#E6C384' },
+  { name: 'Ayu Mirage', ink:'#1F2430', surface:'#232834', line:'#343B49', paper:'#CBCCC6', muted:'#8A9199', accent:'#FFCC66', accent2:'#5CCFE6' },
+  { name: 'Material Ocean', ink:'#0F111A', surface:'#1A1C25', line:'#2A2D3A', paper:'#A6ACCD', muted:'#717CB4', accent:'#82AAFF', accent2:'#C3E88D' },
+  { name: 'GitHub dark dimmed', ink:'#1C2128', surface:'#22272E', line:'#373E47', paper:'#ADBAC7', muted:'#768390', accent:'#539BF5', accent2:'#57AB5A' },
+  { name: 'Horizon (coral)', ink:'#1C1E26', surface:'#232530', line:'#353846', paper:'#D5D8DA', muted:'#6C6F93', accent:'#E95678', accent2:'#FAB795' },
+  { name: 'Cobalt2 (yellow)', ink:'#16263D', surface:'#1E3A5F', line:'#2C4869', paper:'#E4ECF5', muted:'#7C92AC', accent:'#FFC600', accent2:'#2BD9FE' },
+  { name: 'Plum + gold', ink:'#1A0F1C', surface:'#271630', line:'#3D2347', paper:'#EFE4F2', muted:'#A38DAA', accent:'#C264A8', accent2:'#E0B341' },
+  { name: 'Matrix (neon green)', ink:'#0A0F0A', surface:'#111A11', line:'#1F2E1F', paper:'#D6F5D6', muted:'#6E8E6E', accent:'#39FF14', accent2:'#00B84A' },
+  { name: 'Sage + terracotta', ink:'#131811', surface:'#1D241A', line:'#2E3826', paper:'#E8EBDE', muted:'#8F9885', accent:'#9CAF88', accent2:'#C97C5D' },
+  { name: 'Espresso + caramel', ink:'#1A1410', surface:'#261D16', line:'#3A2D22', paper:'#EDE4D6', muted:'#A89A88', accent:'#C8956C', accent2:'#A3B18A' },
+  { name: 'Steel + orange', ink:'#10151A', surface:'#19212A', line:'#2B3845', paper:'#E3E8ED', muted:'#83909C', accent:'#F97316', accent2:'#38BDF8' },
+  { name: 'Wine + sage', ink:'#17101A', surface:'#221828', line:'#352445', paper:'#ECE5EE', muted:'#9E8AA0', accent:'#A24E6B', accent2:'#9CAF88' },
+
+  // ── classics batch ────────────────────────────────────────
+  { name: 'Oxford blue + brass', ink:'#0A1A2F', surface:'#122740', line:'#213A55', paper:'#EDE6D4', muted:'#8A97A8', accent:'#B08D57', accent2:'#9DB4C0' },
+  { name: 'Maroon + gold', ink:'#2A0E12', surface:'#381418', line:'#4E2026', paper:'#F2E8DA', muted:'#B0928F', accent:'#E0B84A', accent2:'#C77B6B' },
+  { name: 'Hunter green + brass', ink:'#0E1A14', surface:'#16261D', line:'#24382C', paper:'#ECE4D2', muted:'#93A192', accent:'#B79049', accent2:'#7FA88A' },
+  { name: 'Prussian blue + gold', ink:'#0A1622', surface:'#112233', line:'#1E3447', paper:'#E9E4D4', muted:'#8896A4', accent:'#CBA14A', accent2:'#5E89A8' },
+  { name: 'Charcoal + ivory', ink:'#161412', surface:'#211E1A', line:'#34302A', paper:'#F2ECE0', muted:'#9C9488', accent:'#E8E0D0', accent2:'#A89F8E' },
+  { name: 'Slate + burgundy', ink:'#14171C', surface:'#1D2128', line:'#2E343E', paper:'#E6E8EC', muted:'#889099', accent:'#9B2D3A', accent2:'#6B7785' },
+  { name: 'Midnight + silver', ink:'#0B0E14', surface:'#141923', line:'#242C3A', paper:'#DEE3EC', muted:'#828B9C', accent:'#AEB9CC', accent2:'#C9A24B' },
+  { name: 'Mahogany + gold', ink:'#1A0E0A', surface:'#271611', line:'#3C231A', paper:'#F0E5D6', muted:'#A8907F', accent:'#A0522D', accent2:'#D4A24B' },
+  { name: 'Teal + brass', ink:'#08161A', surface:'#0F2225', line:'#1C3438', paper:'#E6EAE6', muted:'#7F9591', accent:'#2BA19B', accent2:'#C2A14B' },
+  { name: 'Sepia / newspaper (light)', ink:'#F4ECD8', surface:'#ECE2C8', line:'#D8CBA8', paper:'#2E2419', muted:'#7A6B52', accent:'#8B4A2F', accent2:'#6B5B3E' },
+  { name: 'Ivory + charcoal (light)', ink:'#F7F4EE', surface:'#EDE9E0', line:'#DAD4C8', paper:'#1E1C18', muted:'#6E6A60', accent:'#2D2A26', accent2:'#8A6D3B' },
+  { name: 'Camel + espresso (light)', ink:'#EFE7D8', surface:'#E5DBC8', line:'#D2C4A8', paper:'#3A2A1C', muted:'#7E6B55', accent:'#9B5E2E', accent2:'#6F7A52' },
+];
+
+function hexA(hex, a){ const n=parseInt(hex.slice(1),16); const r=(n>>16)&255,g=(n>>8)&255,b=n&255; return `rgba(${r},${g},${b},${a})`; }
+
+const grid = document.getElementById('grid');
+for (const t of themes) {
+  const el = document.createElement('div');
+  el.className = 'card';
+  el.innerHTML = `
+    <div class="label">
+      <span>${t.name}</span>
+      <span class="swatches">
+        <span class="sw" style="background:${t.ink}"></span>
+        <span class="sw" style="background:${t.paper}"></span>
+        <span class="sw" style="background:${t.accent}"></span>
+        <span class="sw" style="background:${t.accent2}"></span>
+      </span>
+    </div>
+    <div class="mock" style="
+      --ink:${t.ink}; --surface:${t.surface}; --line:${t.line}; --paper:${t.paper};
+      --muted:${t.muted}; --accent:${t.accent}; --accent2:${t.accent2};
+      --glow:${hexA(t.accent,0.18)}; --glow2:${hexA(t.accent2,0.12)};">
+      <div class="eyebrow">Backend Developer · Chennai</div>
+      <div class="name">Hariprasath<span class="dot">.</span></div>
+      <div class="tag">Scalable, secure server-side apps with Python, Django &amp; well-designed REST APIs.</div>
+      <div class="btns">
+        <span class="btn-primary">View work ↓</span>
+        <span class="btn-ghost">Résumé</span>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="num">1<span>+</span></div><div class="lbl">Years</div></div>
+        <div class="stat"><div class="num">500<span>+</span></div><div class="lbl">Endpoints</div></div>
+        <div class="stat"><div class="num"><span>~</span>35%</div><div class="lbl">Faster</div></div>
+        <div class="stat"><div class="num">4</div><div class="lbl">Team led</div></div>
+      </div>
+      <div class="chips">
+        <span class="chip">Python</span><span class="chip">Django</span><span class="chip">DRF</span>
+        <span class="chip">PostgreSQL</span><span class="chip">Celery</span><span class="chip">Redis</span>
+      </div>
+      <div class="terminal">
+        <div class="term-bar"><i style="background:${t.accent}"></i><i style="background:${t.accent2}"></i><i style="background:${t.muted}"></i></div>
+        <div class="term-body">
+          <div><span class="m">POST</span> /api/v1/auth/login <span class="c">→ 200</span></div>
+          <div>{ <span class="k">"token"</span>: <span class="c">"eyJhbGci..."</span>,</div>
+          <div>&nbsp;&nbsp;<span class="k">"role"</span>: <span class="c">"admin"</span> }</div>
+        </div>
+      </div>
+      <div class="proj">
+        <div class="proj-top"><span class="proj-title">Focult</span><span class="proj-year">2025</span></div>
+        <div class="proj-blurb">Enterprise SaaS for employee monitoring & analytics across 500+ endpoints.</div>
+        <div class="proj-tags"><span class="proj-tag">Django</span><span class="proj-tag">Celery</span><span class="proj-tag">JWT</span></div>
+      </div>
+    </div>`;
+  grid.appendChild(el);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Font reference — Hariprasath portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=Geist:wght@300..600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400..700&family=Inter:wght@300..600&family=Playfair+Display:wght@400..700&family=Source+Sans+3:wght@300..600&family=IBM+Plex+Mono:wght@400;500&family=Sora:wght@400..700&family=Space+Mono:wght@400;700&family=Syne:wght@400..700&family=Manrope:wght@300..600&family=DM+Serif+Display&family=DM+Sans:opsz,wght@9..40,400..600&family=DM+Mono:wght@400;500&family=Bricolage+Grotesque:wght@400..700&family=Libre+Baskerville:wght@400;700&family=Lato:wght@300;400;700&family=Archivo:wght@400..700&family=Poppins:wght@300;400;500;600&family=Roboto+Slab:wght@400..700&family=Roboto:wght@300;400;500&family=Roboto+Mono:wght@400;500&family=Cormorant+Garamond:wght@400;500;600&family=Jost:wght@300..600&family=Unbounded:wght@400..700&family=Instrument+Serif:ital@0;1&family=Anton&family=Bebas+Neue&family=IBM+Plex+Serif:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&family=Source+Serif+4:opsz,wght@8..60,400..600&family=Source+Code+Pro:wght@400;500&family=PT+Serif:wght@400;700&family=PT+Sans:wght@400;700&family=PT+Mono&family=Red+Hat+Display:wght@400..700&family=Red+Hat+Text:wght@400;500&family=Red+Hat+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,400..600&family=Spectral:wght@400;500;600&family=Work+Sans:wght@300..600&family=EB+Garamond:wght@400..600&family=Mulish:wght@300..600&family=Lora:wght@400..600&family=Nunito+Sans:wght@300..700&family=Outfit:wght@300..700&family=Schibsted+Grotesk:wght@400..700&family=Zilla+Slab:wght@400;500;700&family=Big+Shoulders+Display:wght@400..700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --ink:#14171C; --surface:#1D2128; --line:#2E343E; --paper:#E6E8EC; --muted:#889099; --accent:#9B2D3A; --accent2:#6B7785;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', system-ui, sans-serif; background:#0E1014; color:var(--paper); padding:40px 32px 80px; }
+  h1 { font-family:'Fraunces',serif; font-weight:600; font-size:28px; letter-spacing:-0.02em; }
+  .sub { color:var(--muted); margin:10px 0 36px; font-size:14px; line-height:1.6; max-width:760px; }
+  .sub b { color:var(--paper); }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(420px, 1fr)); gap:24px; }
+  .card { border-radius:16px; overflow:hidden; border:1px solid var(--line); background:var(--ink); box-shadow:0 20px 50px -20px rgba(0,0,0,0.6); }
+  .label {
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+    padding:11px 16px; background:#0A0C10; border-bottom:1px solid var(--line);
+    font:500 12px/1.4 'JetBrains Mono',monospace; color:#cfd3da;
+  }
+  .label .pair { color:var(--muted); font-size:10.5px; text-align:right; }
+  .mock { padding:26px 24px 28px; }
+  .eyebrow { font-size:10px; letter-spacing:0.24em; text-transform:uppercase; color:var(--accent); }   /* mono role */
+  .name { font-size:46px; letter-spacing:-0.03em; line-height:1; margin:11px 0 0; }                      /* display role */
+  .name .dot { color:var(--accent); }
+  .tag { font-size:14px; line-height:1.55; color:var(--muted); margin-top:13px; max-width:92%; }          /* sans role */
+  .row { display:flex; align-items:center; gap:14px; margin-top:18px; }
+  .btn { font-size:10.5px; letter-spacing:0.12em; text-transform:uppercase; background:var(--accent); color:var(--ink); padding:11px 18px; border-radius:999px; }  /* mono */
+  .stat { display:flex; align-items:baseline; gap:10px; margin-top:20px; padding-top:16px; border-top:1px solid var(--line); }
+  .stat .num { font-size:34px; letter-spacing:-0.02em; line-height:1; }                                   /* display */
+  .stat .lbl { font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted); }     /* mono */
+  .alpha { margin-top:16px; font-size:13px; color:var(--paper); opacity:0.55; }                            /* sans specimen */
+</style>
+</head>
+<body>
+  <h1>Font reference</h1>
+  <p class="sub">Each card pairs three fonts the way the site uses them — a <b>display</b> serif/grotesk for headings, a <b>sans</b> for body text, and a <b>mono</b> for the eyebrow, button, stat labels, and terminal card. Rendered in your current Slate&nbsp;+&nbsp;burgundy theme. Tell me the pairing name you want (or mix, e.g. "Space Grotesk headings with the current Geist body").</p>
+  <div class="grid" id="grid"></div>
+
+<script>
+const pairs = [
+  { name:'Current', display:"'Fraunces', serif", dispW:600, sans:"'Geist', sans-serif", mono:"'JetBrains Mono', monospace", note:'Fraunces · Geist · JetBrains Mono' },
+  { name:'Modern techy', display:"'Space Grotesk', sans-serif", dispW:600, sans:"'Inter', sans-serif", mono:"'JetBrains Mono', monospace", note:'Space Grotesk · Inter · JetBrains Mono' },
+  { name:'Editorial serif', display:"'Playfair Display', serif", dispW:700, sans:"'Source Sans 3', sans-serif", mono:"'IBM Plex Mono', monospace", note:'Playfair Display · Source Sans 3 · IBM Plex Mono' },
+  { name:'Geometric', display:"'Sora', sans-serif", dispW:700, sans:"'Inter', sans-serif", mono:"'Space Mono', monospace", note:'Sora · Inter · Space Mono' },
+  { name:'Bold display', display:"'Syne', sans-serif", dispW:700, sans:"'Manrope', sans-serif", mono:"'Space Mono', monospace", note:'Syne · Manrope · Space Mono' },
+  { name:'Elegant (DM family)', display:"'DM Serif Display', serif", dispW:400, sans:"'DM Sans', sans-serif", mono:"'DM Mono', monospace", note:'DM Serif Display · DM Sans · DM Mono' },
+  { name:'Trendy grotesque', display:"'Bricolage Grotesque', sans-serif", dispW:700, sans:"'Inter', sans-serif", mono:"'JetBrains Mono', monospace", note:'Bricolage Grotesque · Inter · JetBrains Mono' },
+  { name:'Classic book', display:"'Libre Baskerville', serif", dispW:700, sans:"'Lato', sans-serif", mono:"'IBM Plex Mono', monospace", note:'Libre Baskerville · Lato · IBM Plex Mono' },
+  { name:'Swiss heavy', display:"'Archivo', sans-serif", dispW:700, sans:"'Archivo', sans-serif", mono:"'Space Mono', monospace", note:'Archivo · Archivo · Space Mono' },
+  { name:'Friendly rounded', display:"'Poppins', sans-serif", dispW:600, sans:"'Poppins', sans-serif", mono:"'JetBrains Mono', monospace", note:'Poppins · Poppins · JetBrains Mono' },
+  { name:'Slab', display:"'Roboto Slab', serif", dispW:700, sans:"'Roboto', sans-serif", mono:"'Roboto Mono', monospace", note:'Roboto Slab · Roboto · Roboto Mono' },
+  { name:'Luxury serif', display:"'Cormorant Garamond', serif", dispW:600, sans:"'Jost', sans-serif", mono:"'JetBrains Mono', monospace", note:'Cormorant Garamond · Jost · JetBrains Mono' },
+  { name:'Developer mono', display:"'JetBrains Mono', monospace", dispW:500, sans:"'Inter', sans-serif", mono:"'JetBrains Mono', monospace", note:'JetBrains Mono · Inter · JetBrains Mono' },
+  { name:'Statement', display:"'Unbounded', sans-serif", dispW:600, sans:"'Inter', sans-serif", mono:"'Space Mono', monospace", note:'Unbounded · Inter · Space Mono' },
+
+  // ── second batch ──────────────────────────────────────────
+  { name:'Instrument editorial', display:"'Instrument Serif', serif", dispW:400, sans:"'Inter', sans-serif", mono:"'JetBrains Mono', monospace", note:'Instrument Serif · Inter · JetBrains Mono' },
+  { name:'Condensed (Anton)', display:"'Anton', sans-serif", dispW:400, sans:"'Inter', sans-serif", mono:"'Space Mono', monospace", note:'Anton · Inter · Space Mono' },
+  { name:'Tall caps (Bebas)', display:"'Bebas Neue', sans-serif", dispW:400, sans:"'Inter', sans-serif", mono:"'Space Mono', monospace", note:'Bebas Neue · Inter · Space Mono' },
+  { name:'IBM Plex trio', display:"'IBM Plex Serif', serif", dispW:600, sans:"'IBM Plex Sans', sans-serif", mono:"'IBM Plex Mono', monospace", note:'IBM Plex Serif · Sans · Mono' },
+  { name:'Source trio (Adobe)', display:"'Source Serif 4', serif", dispW:600, sans:"'Source Sans 3', sans-serif", mono:"'Source Code Pro', monospace", note:'Source Serif 4 · Sans 3 · Code Pro' },
+  { name:'PT trio', display:"'PT Serif', serif", dispW:700, sans:"'PT Sans', sans-serif", mono:"'PT Mono', monospace", note:'PT Serif · PT Sans · PT Mono' },
+  { name:'Red Hat trio', display:"'Red Hat Display', sans-serif", dispW:700, sans:"'Red Hat Text', sans-serif", mono:"'Red Hat Mono', monospace", note:'Red Hat Display · Text · Mono' },
+  { name:'Newsreader', display:"'Newsreader', serif", dispW:500, sans:"'Inter', sans-serif", mono:"'IBM Plex Mono', monospace", note:'Newsreader · Inter · IBM Plex Mono' },
+  { name:'Spectral', display:"'Spectral', serif", dispW:600, sans:"'Work Sans', sans-serif", mono:"'IBM Plex Mono', monospace", note:'Spectral · Work Sans · IBM Plex Mono' },
+  { name:'EB Garamond (classic)', display:"'EB Garamond', serif", dispW:600, sans:"'Mulish', sans-serif", mono:"'IBM Plex Mono', monospace", note:'EB Garamond · Mulish · IBM Plex Mono' },
+  { name:'Lora (warm)', display:"'Lora', serif", dispW:600, sans:"'Nunito Sans', sans-serif", mono:"'JetBrains Mono', monospace", note:'Lora · Nunito Sans · JetBrains Mono' },
+  { name:'Outfit (geometric)', display:"'Outfit', sans-serif", dispW:600, sans:"'Outfit', sans-serif", mono:"'Space Mono', monospace", note:'Outfit · Outfit · Space Mono' },
+  { name:'Schibsted Grotesk', display:"'Schibsted Grotesk', sans-serif", dispW:700, sans:"'Inter', sans-serif", mono:"'Space Mono', monospace", note:'Schibsted Grotesk · Inter · Space Mono' },
+  { name:'Zilla Slab', display:"'Zilla Slab', serif", dispW:700, sans:"'Inter', sans-serif", mono:"'Space Mono', monospace", note:'Zilla Slab · Inter · Space Mono' },
+  { name:'Big Shoulders', display:"'Big Shoulders Display', sans-serif", dispW:700, sans:"'Inter', sans-serif", mono:"'Space Mono', monospace", note:'Big Shoulders Display · Inter · Space Mono' },
+];
+
+const grid = document.getElementById('grid');
+for (const p of pairs) {
+  const el = document.createElement('div');
+  el.className = 'card';
+  el.innerHTML = `
+    <div class="label"><span>${p.name}</span><span class="pair">${p.note}</span></div>
+    <div class="mock">
+      <div class="eyebrow" style="font-family:${p.mono}">Backend Developer · Chennai</div>
+      <div class="name" style="font-family:${p.display}; font-weight:${p.dispW}">Hariprasath<span class="dot">.</span></div>
+      <div class="tag" style="font-family:${p.sans}">Scalable, secure server-side apps with Python, Django &amp; well-designed REST APIs.</div>
+      <div class="row">
+        <span class="btn" style="font-family:${p.mono}">View work ↓</span>
+        <span style="font-family:${p.mono}; font-size:10.5px; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted)">Résumé</span>
+      </div>
+      <div class="stat">
+        <span class="num" style="font-family:${p.display}; font-weight:${p.dispW}">500+</span>
+        <span class="lbl" style="font-family:${p.mono}">Endpoints monitored</span>
+      </div>
+      <div class="alpha" style="font-family:${p.sans}">ABCDEFGHIJKLM abcdefghijklm 0123456789</div>
+    </div>`;
+  grid.appendChild(el);
+}
+</script>
+</body>
+</html>

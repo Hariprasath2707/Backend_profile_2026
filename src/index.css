@@ -7,24 +7,46 @@
    Colors are defined as RGB channels so Tailwind opacity
    utilities (e.g. bg-surface/40) keep working.
    Dark is the default; the .light class overrides them.
+
+   Each theme also tunes its own overlay intensities — the
+   grain, hero glows, and background washes are calibrated
+   per theme so light mode stays crisp instead of muddy.
    ============================================================ */
 :root {
-  --color-ink: 13 12 10;
-  --color-surface: 22 20 15;
-  --color-line: 42 38 29;
-  --color-paper: 243 237 224;
-  --color-muted: 154 147 132;
-  --color-accent: 255 92 53;
-  --color-accent2: 216 192 138;
+  --color-ink: 20 23 28;
+  --color-surface: 29 33 40;
+  --color-line: 46 52 62;
+  --color-paper: 230 232 236;
+  --color-muted: 136 144 153;
+  --color-accent: 155 45 58;
+  --color-accent2: 107 119 133;
+
+  /* overlay intensities (dark) */
+  --grain-opacity: 0.035;
+  --glow-1: 0.32;          /* hero glow, top-left */
+  --glow-2: 0.26;          /* hero glow, bottom-right */
+  --wash-1: 0.08;          /* page background wash, top */
+  --wash-2: 0.05;          /* page background wash, bottom */
+  --binary-base: 1;        /* binary backdrop multiplier */
+  --card-shadow: 0 20px 50px -20px rgb(0 0 0 / 0.5);
 }
 .light {
-  --color-ink: 247 244 237;
-  --color-surface: 237 231 219;
-  --color-line: 214 206 190;
-  --color-paper: 28 24 18;
-  --color-muted: 108 100 86;
-  --color-accent: 222 72 38;
-  --color-accent2: 150 120 60;
+  --color-ink: 242 243 245;
+  --color-surface: 231 233 236;
+  --color-line: 199 204 212;
+  --color-paper: 24 27 33;
+  --color-muted: 74 84 98;
+  --color-accent: 140 34 48;
+  --color-accent2: 74 84 98;
+
+  /* overlay intensities (light) — much gentler */
+  --grain-opacity: 0.02;
+  --glow-1: 0.14;
+  --glow-2: 0.10;
+  --wash-1: 0.05;
+  --wash-2: 0.03;
+  --binary-base: 1.4;
+  --card-shadow: 0 18px 40px -22px rgb(40 30 35 / 0.25);
 }
 
 @layer base {
@@ -33,11 +55,20 @@
   }
   body {
     @apply bg-ink text-paper font-sans antialiased;
-    background-image:
-      radial-gradient(120% 80% at 50% -10%, rgb(var(--color-accent) / 0.08), transparent 60%),
-      radial-gradient(100% 60% at 100% 100%, rgb(var(--color-accent2) / 0.05), transparent 55%);
-    background-attachment: fixed;
     transition: background-color 0.4s ease, color 0.4s ease;
+  }
+  /* Background washes on their own fixed compositor layer. Using a fixed
+     pseudo-element instead of `background-attachment: fixed` keeps the
+     effect anchored to the viewport without repainting on every scroll. */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+      radial-gradient(120% 80% at 50% -10%, rgb(var(--color-accent) / var(--wash-1)), transparent 60%),
+      radial-gradient(100% 60% at 100% 100%, rgb(var(--color-accent2) / var(--wash-2)), transparent 55%);
   }
   ::selection {
     @apply bg-accent text-ink;
@@ -60,22 +91,100 @@
   /* Plays immediately on page load (used in the hero) */
   .reveal-load {
     opacity: 0;
-    animation: fade-up 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation: fade-up 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
   /* Eyebrow / section labels */
   .eyebrow {
     @apply font-mono text-xs uppercase tracking-[0.25em] text-accent;
   }
+
+  /* Section heading with a short accent rule beneath it */
+  .section-title {
+    @apply font-display text-4xl sm:text-5xl tracking-tightest relative inline-block pb-4;
+  }
+  .section-title::after {
+    content: '';
+    position: absolute;
+    left: 2px;
+    bottom: 0;
+    width: 2.5rem;
+    height: 2px;
+    background: rgb(var(--color-accent));
+    border-radius: 999px;
+  }
+
+  /* Animated underline for nav links */
+  .nav-link {
+    @apply relative font-mono text-sm uppercase tracking-widest text-muted transition-colors;
+  }
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 100%;
+    height: 1px;
+    background: rgb(var(--color-accent));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .nav-link:hover {
+    color: rgb(var(--color-paper));
+  }
+  .nav-link:hover::after {
+    transform: scaleX(1);
+  }
+
+  /* Primary pill button — accent with a soft glow on hover */
+  .btn-primary {
+    @apply font-mono text-xs uppercase tracking-widest bg-accent text-ink rounded-full transition-all duration-300;
+  }
+  .btn-primary:hover {
+    box-shadow: 0 8px 28px -8px rgb(var(--color-accent) / 0.55);
+    transform: translateY(-1px);
+  }
+  .btn-primary:active {
+    transform: translateY(0);
+  }
+
+  /* Secondary pill button — outlined */
+  .btn-ghost {
+    @apply font-mono text-xs uppercase tracking-widest border border-line rounded-full transition-all duration-300;
+  }
+  .btn-ghost:hover {
+    border-color: rgb(var(--color-accent));
+    color: rgb(var(--color-accent));
+    transform: translateY(-1px);
+  }
+
+  /* Card surfaces that respond to hover */
+  .card {
+    @apply border border-line rounded-2xl bg-surface/30 transition-all duration-300;
+  }
+  .card:hover {
+    border-color: rgb(var(--color-accent) / 0.45);
+    box-shadow: var(--card-shadow);
+    transform: translateY(-2px);
+  }
 }
 
-/* Fine grain texture overlay */
+/* Hero glow blobs — intensity tuned per theme */
+.hero-glow-1 {
+  background: radial-gradient(circle, rgb(var(--color-accent) / var(--glow-1)), transparent 65%);
+}
+.hero-glow-2 {
+  background: radial-gradient(circle, rgb(var(--color-accent2) / var(--glow-2)), transparent 65%);
+}
+
+/* Fine grain texture overlay — intensity tuned per theme */
 .grain::before {
   content: '';
   position: fixed;
   inset: 0;
   z-index: 50;
   pointer-events: none;
-  opacity: 0.035;
+  opacity: var(--grain-opacity);
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 

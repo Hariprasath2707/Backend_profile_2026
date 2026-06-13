@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Game-like animation ideas — Hariprasath portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@700&family=PT+Sans:wght@400;700&family=PT+Mono&display=swap" rel="stylesheet" />
+<style>
+  :root{ --ink:#14171C; --surface:#1D2128; --surface2:#23272F; --line:#2E343E; --paper:#E6E8EC; --muted:#889099; --accent:#9B2D3A; --accent2:#6B7785; }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ font-family:'PT Sans',system-ui,sans-serif; background:#0E1014; color:var(--paper); padding:40px 32px 80px; }
+  h1{ font-family:'PT Serif',serif; font-weight:700; font-size:28px; letter-spacing:-0.01em; }
+  .sub{ color:var(--muted); margin:10px 0 36px; font-size:14px; line-height:1.6; max-width:780px; }
+  .sub b{ color:var(--paper); }
+  .grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(360px,1fr)); gap:26px; }
+  .card{ border:1px solid var(--line); border-radius:16px; overflow:hidden; background:var(--surface); }
+  .head{ padding:13px 16px; border-bottom:1px solid var(--line); }
+  .head .t{ font:700 14px 'PT Sans',sans-serif; }
+  .head .t b{ color:var(--accent); font-family:'PT Mono',monospace; margin-right:8px; }
+  .head .d{ color:var(--muted); font-size:11.5px; margin-top:4px; line-height:1.45; }
+  .stage{ position:relative; height:220px; background:var(--ink); overflow:hidden; cursor:crosshair; display:flex; align-items:center; justify-content:center; }
+  .stage canvas{ position:absolute; inset:0; width:100%; height:100%; display:block; }
+  .hint{ position:absolute; bottom:8px; right:10px; font:400 9px 'PT Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); opacity:.55; pointer-events:none; }
+
+  /* magnetic button */
+  .magbtn{ font:700 11px 'PT Mono',monospace; letter-spacing:.12em; text-transform:uppercase; background:var(--accent); color:#fff; padding:14px 26px; border-radius:999px; will-change:transform; }
+
+  /* tilt card */
+  .tiltwrap{ perspective:700px; }
+  .tilt{ width:200px; height:120px; border-radius:14px; background:linear-gradient(135deg,var(--surface2),#2c1a1f); border:1px solid var(--line); display:flex; align-items:center; justify-content:center; font:700 18px 'PT Serif',serif; will-change:transform; box-shadow:0 20px 40px -20px #000; }
+  .tilt .sheen{ position:absolute; inset:0; border-radius:14px; background:radial-gradient(circle at 50% 50%, rgba(255,255,255,.12), transparent 45%); pointer-events:none; }
+
+  /* glitch */
+  .glitch{ font:700 34px 'PT Serif',serif; position:relative; color:var(--paper); }
+  .glitch::before,.glitch::after{ content:attr(data-t); position:absolute; left:0; top:0; width:100%; opacity:0; }
+  .stage:hover .glitch::before{ color:var(--accent); animation:gl 0.4s steps(2) infinite; left:2px; opacity:.9; }
+  .stage:hover .glitch::after{ color:var(--accent2); animation:gl 0.32s steps(2) infinite reverse; left:-2px; opacity:.9; }
+  @keyframes gl{ 0%{clip-path:inset(0 0 70% 0)} 50%{clip-path:inset(50% 0 20% 0)} 100%{clip-path:inset(20% 0 50% 0)} }
+
+  /* terminal */
+  .term{ font:400 13px/1.7 'PT Mono',monospace; color:var(--paper); width:90%; }
+  .term .c{ color:var(--muted); } .term .m{ color:var(--accent); }
+  .caret{ display:inline-block; width:8px; background:var(--accent); animation:blink 1s steps(1) infinite; }
+  @keyframes blink{ 50%{opacity:0} }
+</style>
+</head>
+<body>
+  <h1>Game-like animation ideas <span style="font-size:14px;color:var(--muted)">— move your mouse, hover & click each panel</span></h1>
+  <p class="sub">Interactive demos of effects we could add to the portfolio, in your current theme. They're live — <b>hover, move the cursor, and click</b> inside each panel. Tell me which one(s) you want and where (hero background, buttons, cards, name, etc.) and I'll wire it into the real site.</p>
+  <div class="grid" id="grid"></div>
+
+<script>
+const A = '#9B2D3A', A2 = '#6B7785', PAPER = '#E6E8EC', MUTED='#889099';
+
+// helper: track pointer within a stage; returns {x,y,inside}
+function pointer(stage){
+  const p = { x: stage.clientWidth/2, y: stage.clientHeight/2, inside:false };
+  stage.addEventListener('mousemove', e=>{ const r=stage.getBoundingClientRect(); p.x=e.clientX-r.left; p.y=e.clientY-r.top; p.inside=true; });
+  stage.addEventListener('mouseleave', ()=>{ p.inside=false; });
+  return p;
+}
+function canvasFor(stage){
+  const c=document.createElement('canvas'); stage.appendChild(c);
+  const fit=()=>{ c.width=stage.clientWidth; c.height=stage.clientHeight; };
+  fit(); new ResizeObserver(fit).observe(stage);
+  return { c, ctx:c.getContext('2d') };
+}
+
+const demos = [
+{ name:'1 · Cursor particle field', desc:'Particles drift and swirl toward your cursor — playful, the kind of thing you saw in the old hero.',
+  init(s){ const {c,ctx}=canvasFor(s); const p=pointer(s);
+    const N=90, ps=Array.from({length:N},()=>({x:Math.random()*c.width,y:Math.random()*c.height,vx:0,vy:0}));
+    (function loop(){ ctx.clearRect(0,0,c.width,c.height);
+      const tx=p.inside?p.x:c.width/2, ty=p.inside?p.y:c.height/2;
+      for(const o of ps){ const dx=tx-o.x, dy=ty-o.y, d=Math.hypot(dx,dy)||1;
+        o.vx+=dx/d*0.25; o.vy+=dy/d*0.25; o.vx*=0.92; o.vy*=0.92; o.x+=o.vx; o.y+=o.vy;
+        ctx.fillStyle=A; ctx.globalAlpha=0.8; ctx.beginPath(); ctx.arc(o.x,o.y,2,0,7); ctx.fill(); }
+      ctx.globalAlpha=1; requestAnimationFrame(loop); })(); } },
+
+{ name:'2 · Interactive dot grid', desc:'A grid of dots that push away from the cursor like ripples on water.',
+  init(s){ const {c,ctx}=canvasFor(s); const p=pointer(s); const gap=26;
+    (function loop(){ ctx.clearRect(0,0,c.width,c.height);
+      for(let x=gap/2;x<c.width;x+=gap) for(let y=gap/2;y<c.height;y+=gap){
+        const dx=x-p.x, dy=y-p.y, d=Math.hypot(dx,dy);
+        const push=p.inside&&d<90?(90-d)/90*18:0; const a=d?Math.atan2(dy,dx):0;
+        const px=x+Math.cos(a)*push, py=y+Math.sin(a)*push;
+        const lit=p.inside&&d<90; ctx.fillStyle=lit?A:A2; ctx.globalAlpha=lit?1:.4;
+        ctx.beginPath(); ctx.arc(px,py,lit?2.6:1.6,0,7); ctx.fill(); }
+      ctx.globalAlpha=1; requestAnimationFrame(loop); })(); } },
+
+{ name:'3 · Constellation network', desc:'Floating nodes linked by lines; the cursor pulls in connections. Tech / data-network vibe.',
+  init(s){ const {c,ctx}=canvasFor(s); const p=pointer(s);
+    const N=34, ns=Array.from({length:N},()=>({x:Math.random()*c.width,y:Math.random()*c.height,vx:(Math.random()-.5)*.6,vy:(Math.random()-.5)*.6}));
+    (function loop(){ ctx.clearRect(0,0,c.width,c.height);
+      for(const n of ns){ n.x+=n.vx; n.y+=n.vy; if(n.x<0||n.x>c.width)n.vx*=-1; if(n.y<0||n.y>c.height)n.vy*=-1; }
+      for(let i=0;i<N;i++)for(let j=i+1;j<N;j++){ const a=ns[i],b=ns[j],d=Math.hypot(a.x-b.x,a.y-b.y);
+        if(d<80){ ctx.strokeStyle=A2; ctx.globalAlpha=(1-d/80)*.5; ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke(); } }
+      if(p.inside) for(const n of ns){ const d=Math.hypot(n.x-p.x,n.y-p.y); if(d<110){ ctx.strokeStyle=A; ctx.globalAlpha=(1-d/110); ctx.beginPath(); ctx.moveTo(n.x,n.y); ctx.lineTo(p.x,p.y); ctx.stroke(); } }
+      ctx.globalAlpha=1; ctx.fillStyle=PAPER; for(const n of ns){ ctx.beginPath(); ctx.arc(n.x,n.y,1.8,0,7); ctx.fill(); }
+      requestAnimationFrame(loop); })(); } },
+
+{ name:'4 · Matrix rain', desc:'Falling code glyphs. Retro-hacker aesthetic — could sit subtly behind the hero.',
+  init(s){ const {c,ctx}=canvasFor(s); const fs=14; let cols=Math.floor(c.width/fs); let drops=Array(cols).fill(1);
+    const ch='01{}<>/=;()$#'.split('');
+    new ResizeObserver(()=>{ cols=Math.floor(c.width/fs); drops=Array(cols).fill(1); }).observe(s);
+    (function loop(){ ctx.fillStyle='rgba(20,23,28,0.12)'; ctx.fillRect(0,0,c.width,c.height); ctx.font=fs+'px PT Mono, monospace';
+      for(let i=0;i<cols;i++){ ctx.fillStyle=Math.random()>.97?PAPER:A; ctx.fillText(ch[Math.floor(Math.random()*ch.length)], i*fs, drops[i]*fs);
+        if(drops[i]*fs>c.height&&Math.random()>.975)drops[i]=0; drops[i]++; }
+      requestAnimationFrame(loop); })(); } },
+
+{ name:'5 · Cursor comet trail', desc:'A trail of fading dots chasing the cursor. Quick, fun pointer feedback.',
+  init(s){ const {c,ctx}=canvasFor(s); const p=pointer(s); const tr=[]; let x=c.width/2,y=c.height/2;
+    (function loop(){ ctx.clearRect(0,0,c.width,c.height); const tx=p.inside?p.x:c.width/2, ty=p.inside?p.y:c.height/2;
+      x+=(tx-x)*.2; y+=(ty-y)*.2; tr.push({x,y}); if(tr.length>22)tr.shift();
+      tr.forEach((t,i)=>{ const a=i/tr.length; ctx.fillStyle=A; ctx.globalAlpha=a*.9; ctx.beginPath(); ctx.arc(t.x,t.y,a*7,0,7); ctx.fill(); });
+      ctx.globalAlpha=1; requestAnimationFrame(loop); })(); } },
+
+{ name:'6 · Magnetic button', desc:'Buttons that lean toward the cursor and snap back — satisfying micro-interaction for CTAs.',
+  init(s){ const b=document.createElement('button'); b.className='magbtn'; b.textContent='View work ↓'; s.appendChild(b);
+    s.addEventListener('mousemove',e=>{ const r=b.getBoundingClientRect(); const cx=r.left+r.width/2, cy=r.top+r.height/2;
+      const dx=e.clientX-cx, dy=e.clientY-cy, d=Math.hypot(dx,dy);
+      if(d<160){ b.style.transform=`translate(${dx*0.35}px,${dy*0.35}px)`; } else b.style.transform=''; });
+    s.addEventListener('mouseleave',()=>b.style.transform=''); } },
+
+{ name:'7 · 3D tilt card', desc:'Cards that tilt in 3D toward the cursor with a moving sheen — like collectible game cards.',
+  init(s){ const w=document.createElement('div'); w.className='tiltwrap';
+    w.innerHTML='<div class="tilt">Focult<div class="sheen"></div></div>'; s.appendChild(w); const t=w.querySelector('.tilt');
+    s.addEventListener('mousemove',e=>{ const r=t.getBoundingClientRect(); const px=(e.clientX-r.left)/r.width-.5, py=(e.clientY-r.top)/r.height-.5;
+      t.style.transform=`rotateY(${px*22}deg) rotateX(${-py*22}deg)`; });
+    s.addEventListener('mouseleave',()=>t.style.transform=''); } },
+
+{ name:'8 · Glitch text (hover)', desc:'Headings that glitch/RGB-split on hover. Cyber, attention-grabbing for your name.',
+  init(s){ const h=document.createElement('div'); h.className='glitch'; h.setAttribute('data-t','Hariprasath'); h.textContent='Hariprasath'; s.appendChild(h);
+    const hint=document.createElement('span'); hint.className='hint'; hint.textContent='hover me'; s.appendChild(hint); } },
+
+{ name:'9 · Typing terminal', desc:'A terminal that types itself out on a loop — animated version of the current hero card.',
+  init(s){ const el=document.createElement('div'); el.className='term'; s.appendChild(el);
+    const lines=['<span class="c">$</span> <span class="m">whoami</span>','Hariprasath V — Backend Developer','<span class="c">$</span> <span class="m">cat</span> stack.txt','Python · Django · DRF · PostgreSQL'];
+    let li=0,ci=0,html='';
+    (function type(){ const raw=lines[li].replace(/<[^>]+>/g,'');
+      el.innerHTML=html+lines[li].slice(0, lines[li].length*(ci/raw.length||0)) + '<span class="caret">&nbsp;</span>';
+      // simpler char-accurate typing on plain text then swap — approximate:
+      el.innerHTML=html+'<span class="caret">&nbsp;</span>';
+      ci++; if(ci<=raw.length){ html=html; setTimeout(()=>{ el.innerHTML=html+partial(lines[li],ci)+'<span class="caret">&nbsp;</span>'; type2(); },0); }
+      type2();
+    })();
+    function partial(s,n){ // strip tags, take n chars, keep simple
+      const txt=s.replace(/<[^>]+>/g,''); return txt.slice(0,n); }
+    function type2(){}
+    // robust simple typer:
+    el.innerHTML='';
+    let L=0,C=0,acc='';
+    (function tick(){ const plain=lines[L].replace(/<[^>]+>/g,'');
+      C++; const shown=acc+'<div>'+plain.slice(0,C)+'<span class="caret">&nbsp;</span></div>';
+      el.innerHTML=shown;
+      if(C<plain.length){ setTimeout(tick,55); }
+      else { acc+='<div>'+lines[L]+'</div>'; L++; C=0; if(L<lines.length){ setTimeout(tick,400); } else { setTimeout(()=>{acc='';L=0;el.innerHTML='';tick();},1600); } }
+    })(); } },
+
+{ name:'10 · Confetti / spark (click)', desc:'Click anywhere in the panel — particles burst with gravity. Celebratory click feedback.',
+  init(s){ const {c,ctx}=canvasFor(s); let ps=[]; const hint=document.createElement('span'); hint.className='hint'; hint.textContent='click me'; s.appendChild(hint);
+    s.addEventListener('click',e=>{ const r=s.getBoundingClientRect(); const x=e.clientX-r.left,y=e.clientY-r.top;
+      for(let i=0;i<26;i++){ const a=Math.random()*7, sp=2+Math.random()*5; ps.push({x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,life:1,col:Math.random()>.5?A:A2}); } });
+    (function loop(){ ctx.clearRect(0,0,c.width,c.height); ps=ps.filter(o=>o.life>0);
+      for(const o of ps){ o.vy+=0.18; o.x+=o.vx; o.y+=o.vy; o.life-=0.018; ctx.globalAlpha=Math.max(0,o.life); ctx.fillStyle=o.col; ctx.fillRect(o.x,o.y,3,3); }
+      ctx.globalAlpha=1; requestAnimationFrame(loop); })(); } },
+
+// ───────────────────────── second batch ─────────────────────────
+{ name:'11 · Spotlight reveal', desc:'A flashlight that follows the cursor, revealing hidden text in the dark. Mysterious intro.',
+  init(s){ const txt=document.createElement('div'); txt.style.font='700 24px "PT Serif",serif'; txt.style.color=PAPER; txt.style.letterSpacing='.04em'; txt.textContent='> ACCESS GRANTED'; s.appendChild(txt);
+    const {c,ctx}=canvasFor(s); const p=pointer(s);
+    (function loop(){ ctx.clearRect(0,0,c.width,c.height); ctx.fillStyle='#14171C'; ctx.fillRect(0,0,c.width,c.height);
+      const x=p.inside?p.x:c.width/2, y=p.inside?p.y:c.height/2; const g=ctx.createRadialGradient(x,y,0,x,y,95);
+      g.addColorStop(0,'rgba(0,0,0,1)'); g.addColorStop(1,'rgba(0,0,0,0)'); ctx.globalCompositeOperation='destination-out'; ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,95,0,7); ctx.fill(); ctx.globalCompositeOperation='source-over';
+      requestAnimationFrame(loop); })();
+    const h=document.createElement('span'); h.className='hint'; h.textContent='move cursor'; s.appendChild(h); } },
+
+{ name:'12 · Click ripple waves', desc:'Concentric rings burst from each click and fade. Tactile click feedback.',
+  init(s){ const {c,ctx}=canvasFor(s); let rings=[]; const h=document.createElement('span'); h.className='hint'; h.textContent='click me'; s.appendChild(h);
+    s.addEventListener('click',e=>{ const r=s.getBoundingClientRect(); rings.push({x:e.clientX-r.left,y:e.clientY-r.top,r:0}); });
+    (function loop(){ ctx.clearRect(0,0,c.width,c.height); rings=rings.filter(o=>o.r<150);
+      for(const o of rings){ o.r+=2.6; ctx.strokeStyle=A; ctx.globalAlpha=Math.max(0,1-o.r/150); ctx.lineWidth=2; ctx.beginPath(); ctx.arc(o.x,o.y,o.r,0,7); ctx.stroke(); }
+      ctx.globalAlpha=1; requestAnimationFrame(loop); })(); } },
+
+{ name:'13 · Gravity balls', desc:'Bouncing balls with real gravity; your cursor shoves them around. Physics-toy fun.',
+  init(s){ const {c,ctx}=canvasFor(s); const p=pointer(s);
+    const balls=Array.from({length:14},()=>({x:Math.random()*c.width,y:Math.random()*c.height/2,vx:(Math.random()-.5)*3,vy:0,r:5+Math.random()*8}));
+    (function loop(){ ctx.clearRect(0,0,c.width,c.height);
+      for(const b of balls){ b.vy+=0.3; if(p.inside){ const dx=b.x-p.x,dy=b.y-p.y,d=Math.hypot(dx,dy)||1; if(d<70){ b.vx+=dx/d*1.3; b.vy+=dy/d*1.3; } }
+        b.x+=b.vx; b.y+=b.vy; b.vx*=0.995;
+        if(b.y+b.r>c.height){ b.y=c.height-b.r; b.vy*=-0.7; b.vx*=0.9; } if(b.x-b.r<0){b.x=b.r;b.vx*=-0.8;} if(b.x+b.r>c.width){b.x=c.width-b.r;b.vx*=-0.8;}
+        ctx.fillStyle=A; ctx.beginPath(); ctx.arc(b.x,b.y,b.r,0,7); ctx.fill(); }
+      requestAnimationFrame(loop); })(); } },
+
+{ name:'14 · Snake (auto-play)', desc:'A self-playing snake chasing food on a grid. Playful nod to classic games.',
+  init(s){ const {c,ctx}=canvasFor(s); const cell=14; let cols=Math.max(4,Math.floor(c.width/cell)), rows=Math.max(4,Math.floor(c.height/cell));
+    new ResizeObserver(()=>{cols=Math.max(4,Math.floor(c.width/cell));rows=Math.max(4,Math.floor(c.height/cell));}).observe(s);
+    let snake=[{x:5,y:5}], food={x:10,y:5};
+    function step(){ const head={x:snake[0].x,y:snake[0].y}; let dir;
+      if(Math.abs(food.x-head.x)>Math.abs(food.y-head.y)) dir={x:Math.sign(food.x-head.x)||1,y:0}; else dir={x:0,y:Math.sign(food.y-head.y)||1};
+      head.x=(head.x+dir.x+cols)%cols; head.y=(head.y+dir.y+rows)%rows; snake.unshift(head);
+      if(head.x===food.x&&head.y===food.y){ food={x:Math.floor(Math.random()*cols),y:Math.floor(Math.random()*rows)}; } else snake.pop();
+      if(snake.length>55) snake.pop();
+      ctx.clearRect(0,0,c.width,c.height);
+      ctx.fillStyle=A; ctx.fillRect(food.x*cell+2,food.y*cell+2,cell-4,cell-4);
+      ctx.fillStyle=PAPER; snake.forEach((seg,i)=>{ ctx.globalAlpha=1-i/snake.length*0.7; ctx.fillRect(seg.x*cell+1,seg.y*cell+1,cell-2,cell-2); }); ctx.globalAlpha=1; }
+    setInterval(step,110); } },
+
+{ name:'15 · Starfield warp', desc:'Stars streak outward like jumping to hyperspace; the cursor steers the center. Space-game vibe.',
+  init(s){ const {c,ctx}=canvasFor(s); const p=pointer(s);
+    let stars=Array.from({length:130},()=>({a:Math.random()*7,r:Math.random()*Math.max(c.width,c.height)/2,sp:Math.random()*2+0.5}));
+    (function loop(){ ctx.fillStyle='rgba(20,23,28,0.3)'; ctx.fillRect(0,0,c.width,c.height); const cx=p.inside?p.x:c.width/2, cy=p.inside?p.y:c.height/2;
+      for(const st of stars){ st.r+=st.sp*(st.r/45+0.5); const x=cx+Math.cos(st.a)*st.r, y=cy+Math.sin(st.a)*st.r;
+        if(x<0||x>c.width||y<0||y>c.height){ st.r=2; st.a=Math.random()*7; st.sp=Math.random()*2+0.5; }
+        ctx.fillStyle=st.r>110?PAPER:A; ctx.globalAlpha=Math.min(1,st.r/110); ctx.fillRect(x,y,2,2); }
+      ctx.globalAlpha=1; requestAnimationFrame(loop); })(); } },
+
+{ name:'16 · Text decode/scramble', desc:'Letters cycle through random glyphs then resolve to the word. Hacker "decoding" effect.',
+  init(s){ const el=document.createElement('div'); el.style.font='700 30px "PT Serif",serif'; el.style.color=PAPER; s.appendChild(el);
+    const target='Hariprasath', glyph='!<>-_/[]{}=+*^?#01';
+    (function cycle(){ let frame=0; const q=target.split('').map(()=>({})); q.forEach((o,i)=>{ o.to=target[i]; o.start=Math.floor(Math.random()*16); o.end=o.start+8+Math.floor(Math.random()*16); o.c=''; });
+      (function run(){ let out='',done=0;
+        for(const o of q){ if(frame>=o.end){done++; out+=o.to;} else if(frame>=o.start){ if(Math.random()<0.3||!o.c)o.c=glyph[Math.floor(Math.random()*glyph.length)]; out+='<span style="color:'+A+'">'+o.c+'</span>'; } }
+        el.innerHTML=out; frame++; if(done<q.length) requestAnimationFrame(run); else setTimeout(cycle,1500); })(); })(); } },
+
+{ name:'17 · Runaway button', desc:'A button that dodges the cursor — a "catch me" easter egg. Cheeky and fun.',
+  init(s){ s.style.cursor='default'; const b=document.createElement('button'); b.className='magbtn'; b.textContent='Catch me'; b.style.position='absolute'; b.style.transition='left .25s ease, top .25s ease'; s.appendChild(b);
+    const place=(x,y)=>{ b.style.left=x+'px'; b.style.top=y+'px'; };
+    requestAnimationFrame(()=>place(s.clientWidth/2-b.offsetWidth/2, s.clientHeight/2-b.offsetHeight/2));
+    s.addEventListener('mousemove',e=>{ const r=s.getBoundingClientRect(); const mx=e.clientX-r.left,my=e.clientY-r.top; const bx=b.offsetLeft+b.offsetWidth/2, by=b.offsetTop+b.offsetHeight/2;
+      if(Math.hypot(mx-bx,my-by)<80){ place(Math.random()*(s.clientWidth-b.offsetWidth), Math.random()*(s.clientHeight-b.offsetHeight)); } }); } },
+
+{ name:'18 · Parallax layers', desc:'Layers drift at different speeds with the cursor for a sense of depth. Subtle, premium.',
+  init(s){ const mk=(sz,col,op,k)=>{ const d=document.createElement('div'); d.style.cssText=`position:absolute;border-radius:20px;left:50%;top:50%;will-change:transform;width:${sz}px;height:${sz}px;background:${col};opacity:${op}`; d.dataset.k=k; s.appendChild(d); return d; };
+    const layers=[ mk(150,A,0.5,0.06), mk(92,A2,0.65,0.12), mk(46,PAPER,0.9,0.2) ]; const p=pointer(s);
+    (function loop(){ const dx=(p.inside?p.x:s.clientWidth/2)-s.clientWidth/2, dy=(p.inside?p.y:s.clientHeight/2)-s.clientHeight/2;
+      layers.forEach(l=>{ const k=+l.dataset.k; l.style.transform=`translate(-50%,-50%) translate(${dx*k}px,${dy*k}px)`; }); requestAnimationFrame(loop); })(); } },
+
+{ name:'19 · Card flip (hover)', desc:'Cards that flip in 3D to reveal details on the back. Interactive card UI for projects.',
+  init(s){ const wrap=document.createElement('div'); wrap.style.cssText='width:210px;height:124px;perspective:800px';
+    const inner=document.createElement('div'); inner.style.cssText='position:relative;width:100%;height:100%;transition:transform .6s cubic-bezier(.22,1,.36,1);transform-style:preserve-3d';
+    const face='position:absolute;inset:0;border-radius:14px;border:1px solid #2E343E;display:flex;align-items:center;justify-content:center;backface-visibility:hidden';
+    const front=document.createElement('div'); front.style.cssText=`${face};background:#23272F;font:700 20px "PT Serif",serif`; front.textContent='Focult';
+    const back=document.createElement('div'); back.style.cssText=`${face};background:${A};color:#fff;transform:rotateY(180deg);font:400 12px "PT Mono",monospace;text-align:center;padding:12px`; back.textContent='500+ endpoints · Django · Celery';
+    inner.append(front,back); wrap.appendChild(inner); s.appendChild(wrap);
+    s.addEventListener('mouseenter',()=>inner.style.transform='rotateY(180deg)'); s.addEventListener('mouseleave',()=>inner.style.transform=''); } },
+
+{ name:'20 · Orbiting satellites', desc:'Dots orbit a core that follows your cursor. Solar-system / loading feel.',
+  init(s){ const {c,ctx}=canvasFor(s); const p=pointer(s); let t=0; const orbits=[{r:28,n:1,sp:0.04},{r:54,n:2,sp:-0.025},{r:82,n:3,sp:0.018}];
+    (function loop(){ ctx.clearRect(0,0,c.width,c.height); t++; const cx=p.inside?p.x:c.width/2, cy=p.inside?p.y:c.height/2;
+      ctx.strokeStyle=A2; ctx.globalAlpha=.18; for(const o of orbits){ ctx.beginPath(); ctx.arc(cx,cy,o.r,0,7); ctx.stroke(); }
+      ctx.globalAlpha=1; ctx.fillStyle=A; ctx.beginPath(); ctx.arc(cx,cy,5,0,7); ctx.fill();
+      ctx.fillStyle=PAPER; for(const o of orbits){ for(let i=0;i<o.n;i++){ const a=t*o.sp+i*(7/o.n); ctx.beginPath(); ctx.arc(cx+Math.cos(a)*o.r, cy+Math.sin(a)*o.r,3,0,7); ctx.fill(); } }
+      requestAnimationFrame(loop); })(); } },
+
+{ name:'21 · Typewriter roles', desc:'Cycles through your titles, typing and deleting each. Classic animated tagline.',
+  init(s){ const el=document.createElement('div'); el.style.font='400 18px "PT Mono",monospace'; el.style.color=PAPER; s.appendChild(el);
+    const words=['Backend Developer','API Architect','Django Specialist','Problem Solver']; let w=0,i=0,del=false;
+    (function tick(){ const cur=words[w]; el.innerHTML=cur.slice(0,i)+'<span class="caret">&nbsp;</span>';
+      if(!del){ i++; if(i>cur.length){ del=true; setTimeout(tick,900); return; } } else { i--; if(i<0){ del=false; w=(w+1)%words.length; i=0; } }
+      setTimeout(tick, del?40:75); })(); } },
+
+{ name:'22 · Magnetic letters', desc:'Letters in your name scatter from the cursor and spring back. Tactile heading effect.',
+  init(s){ const wrap=document.createElement('div'); wrap.style.cssText='font:700 34px "PT Serif",serif;display:flex'; s.appendChild(wrap);
+    const spans=[...'Hariprasath'].map(ch=>{ const sp=document.createElement('span'); sp.textContent=ch; sp.style.cssText='display:inline-block;transition:transform .2s ease,color .2s ease'; wrap.appendChild(sp); return sp; });
+    s.addEventListener('mousemove',e=>{ spans.forEach(sp=>{ const r=sp.getBoundingClientRect(); const cx=r.left+r.width/2, cy=r.top+r.height/2; const dx=cx-e.clientX, dy=cy-e.clientY, d=Math.hypot(dx,dy)||1;
+      if(d<70){ const f=(70-d)/70*26; sp.style.transform=`translate(${dx/d*f}px,${dy/d*f}px)`; sp.style.color=A; } else { sp.style.transform=''; sp.style.color=''; } }); });
+    s.addEventListener('mouseleave',()=>spans.forEach(sp=>{sp.style.transform='';sp.style.color='';})); } },
+];
+
+const grid=document.getElementById('grid');
+for(const d of demos){
+  const card=document.createElement('div'); card.className='card';
+  card.innerHTML=`<div class="head"><div class="t"><b>${d.name.split(' · ')[0]}</b>${d.name.split(' · ')[1]}</div><div class="d">${d.desc}</div></div><div class="stage"></div>`;
+  grid.appendChild(card);
+  d.init(card.querySelector('.stage'));
+}
+</script>
+</body>
+</html>

@@ -14,7 +14,7 @@ function NotFound() {
         </p>
         <Link
           to={{ pathname: '/', hash: '#work' }}
-          className="inline-block mt-8 font-mono text-xs uppercase tracking-widest border border-line px-6 py-3 rounded-full hover:border-accent hover:text-accent transition-colors"
+          className="btn-ghost inline-block mt-8 px-6 py-3"
         >
           ← Back to work
         </Link>
@@ -74,7 +74,7 @@ export default function ProjectDetail() {
                 href={link}
                 target="_blank"
                 rel="noreferrer"
-                className="font-mono text-xs uppercase tracking-widest bg-accent text-ink px-5 py-2.5 rounded-full hover:bg-paper transition-colors"
+                className="btn-primary px-5 py-2.5"
               >
                 Live ↗
               </a>
@@ -84,7 +84,7 @@ export default function ProjectDetail() {
                 href={repo}
                 target="_blank"
                 rel="noreferrer"
-                className="font-mono text-xs uppercase tracking-widest border border-line px-5 py-2.5 rounded-full hover:border-accent hover:text-accent transition-colors"
+                className="btn-ghost px-5 py-2.5"
               >
                 Source ↗
               </a>
@@ -116,9 +116,9 @@ export default function ProjectDetail() {
 
         {/* Outcomes */}
         {outcomes && (
-          <div className="reveal mt-12 grid grid-cols-3 gap-4">
+          <div className="reveal mt-12 grid grid-cols-1 sm:grid-cols-3 gap-4">
             {outcomes.map((o, i) => (
-              <div key={i} className="border border-line rounded-2xl p-5 text-center">
+              <div key={i} className="card p-5 text-center">
                 <div className="font-display text-3xl sm:text-4xl tracking-tightest text-accent">
                   {o.metric}
                 </div>
@@ -167,7 +167,7 @@ export default function ProjectDetail() {
             <h2 className="font-display text-2xl sm:text-3xl tracking-tightest mb-4">Key Features</h2>
             <div className="grid sm:grid-cols-2 gap-4">
               {features.map((f, i) => (
-                <div key={i} className="border border-line rounded-xl p-5 bg-surface/30">
+                <div key={i} className="card rounded-xl p-5">
                   <p className="text-paper/90 leading-relaxed">{f}</p>
                 </div>
               ))}
@@ -202,7 +202,7 @@ export default function ProjectDetail() {
           </Link>
           <Link
             to={{ pathname: '/', hash: '#contact' }}
-            className="font-mono text-xs uppercase tracking-widest bg-accent text-ink px-5 py-2.5 rounded-full hover:bg-paper transition-colors"
+            className="btn-primary px-5 py-2.5"
           >
             Get in touch →
           </Link>

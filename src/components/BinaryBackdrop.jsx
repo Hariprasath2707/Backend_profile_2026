@@ -46,8 +46,8 @@ export default function BinaryBackdrop() {
               key={j}
               style={{
                 color: d.hot
-                  ? `rgb(var(--color-accent) / ${Math.min(c.baseOp + 0.16, 0.3)})`
-                  : `rgb(var(--color-muted) / ${c.baseOp})`,
+                  ? `rgb(var(--color-accent) / calc(${Math.min(c.baseOp + 0.16, 0.3)} * var(--binary-base)))`
+                  : `rgb(var(--color-muted) / calc(${c.baseOp} * var(--binary-base)))`,
               }}
             >
               {d.v}
